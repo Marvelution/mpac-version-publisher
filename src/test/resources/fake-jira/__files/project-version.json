@@ -1,0 +1,32 @@
+{
+	"self": "{{request.requestLine.baseUrl}}/rest/api/2/project/TP/version?maxResults=50&startAt=0",
+	"nextPage": "{{request.requestLine.baseUrl}}/rest/api/2/project/TP/version?maxResults=50&startAt=50",
+	"maxResults": 50,
+	"startAt": 0,
+	"total": 2,
+	"isLast": false,
+	"values": [
+		{
+			"self": "{{request.requestLine.baseUrl}}/rest/api/2/version/14190",
+			"id": "14190",
+			"name": "0.1.0",
+			"description": "Internal Release",
+			"archived": false,
+			"released": true,
+			"releaseDate": "2019-11-06",
+			"userReleaseDate": "06/Nov/19",
+			"projectId": 10650
+		},
+		{
+			"self": "{{request.requestLine.baseUrl}}/rest/api/2/version/12090",
+			"id": "12090",
+			"description": "Initial Release",
+			"name": "server-1.0.0",
+			"archived": false,
+			"released": true,
+			"releaseDate": "2019-12-30",
+			"userReleaseDate": "30/Dec/19",
+			"projectId": 10650
+		}
+	]
+}

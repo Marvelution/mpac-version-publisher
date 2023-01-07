@@ -1,0 +1,16 @@
+{
+	"request": {
+		"urlPathPattern": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/.*",
+		"method": "GET"
+	},
+	"response": {
+		"status": 200,
+		"bodyFileName": "build-{{request.requestLine.pathSegments.[6]}}.json",
+		"transformers": [
+			"response-template"
+		],
+		"headers": {
+			"Content-Type": "application/json"
+		}
+	}
+}

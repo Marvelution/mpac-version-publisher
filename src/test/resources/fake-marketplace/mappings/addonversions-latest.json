@@ -1,0 +1,13 @@
+{
+	"request": {
+		"method": "GET",
+		"url": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/latest?hosting=server"
+	},
+	"response": {
+		"status": 200,
+		"bodyFileName": "addonversions-0.1.0.json",
+		"headers": {
+			"Content-Type": "application/json"
+		}
+	}
+}

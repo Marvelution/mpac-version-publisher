@@ -1,0 +1,94 @@
+{
+	"_links": {
+		"self": {
+			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/{{jsonPath request.body '$.buildNumber'}}"
+		},
+		"alternate": {
+			"href": "/plugins/org.marvelution.buildsupport.test.simple-app/versions#b{{jsonPath request.body '$.buildNumber'}}",
+			"type": "text/html"
+		},
+		"artifact": {
+			"href": "{{jsonPath request.body '$._links.artifact.href'}}"
+		},
+		"functionalCategories": [],
+		"edit": {
+			"href": "/manage/plugins/org.marvelution.buildsupport.test.simple-app/versions/{{jsonPath request.body '$.buildNumber'}}/details",
+			"type": "text/html"
+		},
+		"approval": {
+			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/{{jsonPath request.body '$.buildNumber'}}/approval"
+		},
+		"license": {
+			"href": "/rest/2/licenseTypes/commercial-free"
+		}
+	},
+	"_embedded": {
+		"artifact": {
+			"_links": {
+				"self": {
+					"href": "{{jsonPath request.body '$._links.artifact.href'}}"
+				},
+				"binary": {
+					"href": "https://marketplace.atlassian.com/download/plugins/org.marvelution.buildsupport.test.simple-app/version/{{jsonPath request.body '$.buildNumber'}}"
+				}
+			}
+		},
+		"functionalCategories": [],
+		"highlights": [],
+		"screenshots": [],
+		"license": {
+			"_links": {
+				"self": {
+					"href": "/rest/2/licenseTypes/commercial-free"
+				}
+			},
+			"key": "commercial-free",
+			"name": "Commercial - no charge"
+		}
+	},
+	"buildNumber": "{{jsonPath request.body '$.buildNumber'}}",
+	"name": "{{jsonPath request.body '$.name'}}",
+	"status": "{{jsonPath request.body '$.status'}}",
+	"paymentModel": "free",
+	"release": {
+		"date": "{{jsonPath request.body '$.release.date'}}",
+		"releasedBy": "{{jsonPath request.body '$.release.releasedBy'}}",
+		"beta": false,
+		"supported": true
+	},
+	"vendorLinks": {
+		"documentation": "https://bitbucket.org/marvelution/publish-marketplace-version/",
+		"license": "http://www.apache.org/licenses/LICENSE-2.0.html"
+	},
+	"compatibilities": [
+		{
+			"application": "jira",
+			"hosting": {
+				"server": {
+					"min": {
+						"build": 72002,
+						"version": "7.2.0"
+					},
+					"max": {
+						"build": 805002,
+						"version": "8.5.2"
+					}
+				}
+			}
+		}
+	],
+	"text": {
+		"releaseSummary": "{{#escape}}{{{jsonPath request.body '$.text.releaseSummary'}}}{{/escape}}",
+		"releaseNotes": "{{#escape}}{{{jsonPath request.body '$.text.releaseNotes'}}}{{/escape}}"
+	},
+	"static": false,
+	"deployable": true,
+	"deployment": {
+		"server": true,
+		"cloud": false,
+		"connect": false,
+		"autoUpdateAllowed": false,
+		"permissions": [],
+		"dataCenter": true
+	}
+}

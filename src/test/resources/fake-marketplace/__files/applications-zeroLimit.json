@@ -1,0 +1,22 @@
+{
+	"_links": {
+		"self": {
+			"href": "/rest/2/applications"
+		},
+		"byKey": {
+			"href": "/rest/2/applications/{applicationKey}",
+			"templated": true
+		},
+		"latestVersion": {
+			"href": "/rest/2/applications/{applicationKey}/versions/latest",
+			"templated": true
+		},
+		"versionByBuild": {
+			"href": "/rest/2/applications/{applicationKey}/versions/build/{applicationBuildNumber}",
+			"templated": true
+		}
+	},
+	"_embedded": {
+		"applications": []
+	}
+}

@@ -1,0 +1,27 @@
+{
+	"_links": {
+		"self": {
+			"href": "/rest/2/addons?limit=0"
+		},
+		"alternate": {
+			"href": "/search?limit=0",
+			"type": "text/html"
+		},
+		"query": {
+			"href": "/rest/2/addons{?application,applicationBuild,category*,cost,filter,forThisUser,hosting*,includeHidden,includePrivate,marketingLabel*,text,withVersion,storesPersonalData,offset,limit}",
+			"templated": true
+		},
+		"byKey": {
+			"href": "/rest/2/addons/{addonKey}",
+			"templated": true
+		},
+		"banners": {
+			"href": "/rest/2/addons/listings/banners{?application,applicationBuild,category*,cost,filter,forThisUser,hosting*,includeHidden,includePrivate,marketingLabel*,text,withVersion,storesPersonalData,offset,limit}",
+			"templated": true
+		}
+	},
+	"_embedded": {
+		"addons": []
+	},
+	"count": 2931
+}

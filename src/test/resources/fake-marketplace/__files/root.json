@@ -1,0 +1,25 @@
+{
+	"_links": {
+		"self": {
+			"href": "/rest/2"
+		},
+		"addons": {
+			"href": "/rest/2/addons"
+		},
+		"applications": {
+			"href": "/rest/2/applications"
+		},
+		"assets": {
+			"href": "/rest/2/assets"
+		},
+		"licenseTypes": {
+			"href": "/rest/2/licenseTypes"
+		},
+		"products": {
+			"href": "/rest/2/products"
+		},
+		"vendors": {
+			"href": "/rest/2/vendors"
+		}
+	}
+}

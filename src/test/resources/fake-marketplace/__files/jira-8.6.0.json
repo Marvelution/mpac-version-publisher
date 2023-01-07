@@ -1,0 +1,15 @@
+{
+	"_links": {
+		"self": {
+			"href": "/rest/2/applications/jira/versions/build/806000"
+		},
+		"parent": {
+			"href": "/rest/2/applications/jira"
+		}
+	},
+	"buildNumber": 806000,
+	"dataCenterCompatible": true,
+	"version": "8.6.0",
+	"releaseDate": "2019-12-17",
+	"status": "published"
+}

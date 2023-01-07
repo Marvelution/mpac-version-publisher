@@ -1,0 +1,21 @@
+{
+	"request": {
+		"urlPathPattern": "/rest/api/latest/project/TP/version",
+		"method": "GET",
+		"queryParameters":{
+			"query": {
+				"matches": "server-(\\d.\\d.\\d)"
+			}
+		}
+	},
+	"response": {
+		"status": 200,
+		"bodyFileName": "project-version.json",
+		"transformers": [
+			"response-template"
+		],
+		"headers": {
+			"Content-Type": "application/json"
+		}
+	}
+}

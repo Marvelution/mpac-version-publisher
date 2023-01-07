@@ -1,0 +1,18 @@
+{
+	"request": {
+		"method": "POST",
+		"url": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions"
+	},
+	"response": {
+		"status": 201,
+		"bodyFileName": "addonversions-createVersion.json",
+		"transformers": [
+			"response-template",
+			"response-as-mapping"
+		],
+		"headers": {
+			"Location": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/{{jsonPath request.body '$.buildNumber'}}",
+			"MappingFile": "build-{{jsonPath request.body '$.buildNumber'}}.json"
+		}
+	}
+}

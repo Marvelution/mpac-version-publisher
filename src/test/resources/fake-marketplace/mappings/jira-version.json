@@ -1,0 +1,16 @@
+{
+	"request": {
+		"urlPathPattern": "/rest/2/applications/jira/versions/name/.*",
+		"method": "GET"
+	},
+	"response": {
+		"status": 200,
+		"bodyFileName": "jira-{{request.requestLine.pathSegments.[6]}}.json",
+		"transformers": [
+			"response-template"
+		],
+		"headers": {
+			"Content-Type": "application/json"
+		}
+	}
+}
