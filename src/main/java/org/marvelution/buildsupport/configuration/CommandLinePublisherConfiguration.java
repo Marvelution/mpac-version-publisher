@@ -76,6 +76,12 @@ public class CommandLinePublisherConfiguration
 			.desc("Version artifact path")
 			.required()
 			.build();
+	private final Option releaseNotesPath = Option.builder()
+			.option("rnp")
+			.longOpt("release-notes-path")
+			.hasArg()
+			.desc("Release notes path")
+			.build();
 	private final Option dryRun = Option.builder().option("dr").longOpt("dry-run").desc("Dry run the publishing").build();
 	private final Option debug = Option.builder().option("D").longOpt("debug").desc("Enable debug logging").build();
 	private final Option help = Option.builder().option("h").longOpt("help").desc("Print this help message").build();
@@ -83,6 +89,8 @@ public class CommandLinePublisherConfiguration
 			.addOption(marketplaceBaseUrl)
 			.addOption(marketplaceUsername)
 			.addOption(marketplaceToken)
+			.addOption(appArtifact)
+			.addOption(releaseNotesPath)
 			.addOption(jiraBaseUrl)
 			.addOption(jiraUsername)
 			.addOption(jiraToken)
@@ -92,7 +100,6 @@ public class CommandLinePublisherConfiguration
 			.addOption(useIssueSecurityFilter)
 			.addOption(appVersionStatus)
 			.addOption(appPaymentModel)
-			.addOption(appArtifact)
 			.addOption(dryRun)
 			.addOption(debug)
 			.addOption(help);
@@ -176,6 +183,42 @@ public class CommandLinePublisherConfiguration
 	}
 
 	@Override
+	public Optional<AddonVersionStatus> getVersionStatus()
+	{
+		return Optional.ofNullable(cmd.getOptionValue(appVersionStatus))
+				.flatMap(v -> Stream.of(AddonVersionStatus.values())
+						.filter(e -> e.name().equalsIgnoreCase(v) || e.getKey().equalsIgnoreCase(v))
+						.findFirst());
+	}
+
+	@Override
+	public Optional<PaymentModel> getPaymentModel()
+	{
+		return Optional.ofNullable(cmd.getOptionValue(appPaymentModel))
+				.flatMap(v -> Stream.of(PaymentModel.values())
+						.filter(e -> e.name().equalsIgnoreCase(v) || e.getKey().equalsIgnoreCase(v))
+						.findFirst());
+	}
+
+	@Override
+	public String getVersionArtifactPath()
+	{
+		return getRequiredOptionValue(appArtifact);
+	}
+
+	@Override
+	public boolean dryRun()
+	{
+		return cmd.hasOption(dryRun);
+	}
+
+	@Override
+	public Optional<String> getReleaseNotesPath()
+	{
+		return Optional.ofNullable(cmd.getOptionValue(releaseNotesPath));
+	}
+
+	@Override
 	public Optional<URI> getJiraBaseUrl()
 	{
 		return Optional.ofNullable(cmd.getOptionValue(jiraBaseUrl)).map(URI::create);
@@ -215,36 +258,6 @@ public class CommandLinePublisherConfiguration
 	public boolean useIssueSecurityFilter()
 	{
 		return cmd.hasOption(useIssueSecurityFilter);
-	}
-
-	@Override
-	public Optional<AddonVersionStatus> getVersionStatus()
-	{
-		return Optional.ofNullable(cmd.getOptionValue(appVersionStatus))
-				.flatMap(v -> Stream.of(AddonVersionStatus.values())
-						.filter(e -> e.name().equalsIgnoreCase(v) || e.getKey().equalsIgnoreCase(v))
-						.findFirst());
-	}
-
-	@Override
-	public Optional<PaymentModel> getPaymentModel()
-	{
-		return Optional.ofNullable(cmd.getOptionValue(appPaymentModel))
-				.flatMap(v -> Stream.of(PaymentModel.values())
-						.filter(e -> e.name().equalsIgnoreCase(v) || e.getKey().equalsIgnoreCase(v))
-						.findFirst());
-	}
-
-	@Override
-	public String getVersionArtifactPath()
-	{
-		return getRequiredOptionValue(appArtifact);
-	}
-
-	@Override
-	public boolean dryRun()
-	{
-		return cmd.hasOption(dryRun);
 	}
 
 	private String getRequiredOptionValue(Option option)

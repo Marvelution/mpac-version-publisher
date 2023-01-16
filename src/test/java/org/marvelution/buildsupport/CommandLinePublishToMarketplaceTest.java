@@ -40,6 +40,7 @@ class CommandLinePublishToMarketplaceTest
 			@Nullable String marketplaceUser,
 			@Nullable String marketplaceToken,
 			String versionArtifact,
+			@Nullable String releaseNotesPath,
 			@Nullable AddonVersionStatus versionStatus,
 			@Nullable PaymentModel paymentModel,
 			@Nullable String jiraUrl,
@@ -60,6 +61,7 @@ class CommandLinePublishToMarketplaceTest
 		args.add("-mt");
 		args.add(String.valueOf(marketplaceToken));
 		addArgument(args, "vap", versionArtifact);
+		addArgument(args, "rnp", releaseNotesPath);
 		addArgument(args, "vs", versionStatus, AddonVersionStatus::getKey);
 		addArgument(args, "pm", paymentModel, PaymentModel::getKey);
 		addArgument(args, "j", jiraUrl);

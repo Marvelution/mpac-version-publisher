@@ -25,7 +25,7 @@ public class ReleaseDetails
 {
 
 	private final String version;
-	private final Version parsedVersion;
+	private Version parsedVersion;
 	private String releaseSummary;
 	private String releaseNotes;
 	private AddonVersionStatus status;
@@ -35,7 +35,6 @@ public class ReleaseDetails
 	public ReleaseDetails(String version)
 	{
 		this.version = version;
-		parsedVersion = Version.parseVersion(version);
 	}
 
 	public String getVersion()
@@ -89,6 +88,10 @@ public class ReleaseDetails
 
 	public long getBuildNumber(HostingType hostingType)
 	{
+		if (parsedVersion == null)
+		{
+			parsedVersion = Version.parseVersion(version);
+		}
 		return parsedVersion.getMajorVersion() * 100_000_000L + parsedVersion.getMinorVersion() * 100_000L +
 				parsedVersion.getPatchLevel() * 100L + hostingType.ordinal();
 	}

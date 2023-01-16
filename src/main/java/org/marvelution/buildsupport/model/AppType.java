@@ -21,9 +21,10 @@ import com.atlassian.plugin.tool.bean.*;
 /**
  * @author Mark Rekveld
  */
-public enum PluginType
+public enum AppType
 {
 
+	CLOUD("cloud", HostingType.CLOUD),
 	SERVER("server", HostingType.SERVER),
 	DATA_CENTER("data-center", HostingType.DATA_CENTER),
 	BOTH("both", HostingType.DATA_CENTER, HostingType.SERVER);
@@ -31,7 +32,7 @@ public enum PluginType
 	final String name;
 	final HostingType[] hostingTypes;
 
-	PluginType(
+	AppType(
 			String name,
 			HostingType... hostingTypes)
 	{
@@ -39,16 +40,16 @@ public enum PluginType
 		this.hostingTypes = hostingTypes;
 	}
 
-	public static PluginType fromParam(Parameter parameter)
+	public static AppType fromParam(Parameter parameter)
 	{
-		for (PluginType pluginType : values())
+		for (AppType appType : values())
 		{
-			if (pluginType.name.equals(parameter.getValue()))
+			if (appType.name.equals(parameter.getValue()))
 			{
-				return pluginType;
+				return appType;
 			}
 		}
-		throw new IllegalArgumentException("unknown plugin type: " + parameter.getValue());
+		throw new IllegalArgumentException("unknown app type: " + parameter.getValue());
 	}
 
 	public HostingType[] hostingTypes()

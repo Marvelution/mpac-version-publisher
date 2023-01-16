@@ -15,22 +15,18 @@
  */
 package org.marvelution.buildsupport;
 
-import java.io.*;
-import java.nio.file.*;
-import java.nio.file.attribute.*;
+import java.net.*;
 import java.util.*;
-import java.util.function.*;
 
 import org.marvelution.buildsupport.configuration.*;
 import org.marvelution.buildsupport.helper.*;
 import org.marvelution.buildsupport.model.*;
 
 import com.atlassian.marketplace.client.model.*;
-import com.atlassian.plugin.tool.*;
 import io.atlassian.fugue.*;
 import org.slf4j.*;
 
-import static org.marvelution.buildsupport.helper.MarketplaceHelper.*;
+import static org.marvelution.buildsupport.helper.AppDetailsHelper.*;
 
 import static com.atlassian.marketplace.client.model.AddonVersionStatus.*;
 
@@ -72,32 +68,32 @@ public class PublishToMarketplace
 			throws Exception
 	{
 		try (MarketplaceHelper marketplace = new MarketplaceHelper(configuration);
-		     ReleaseDetailsHelper releaseDetailsHelper = new ReleaseDetailsHelper(configuration))
+		     ReleaseNotesHelper releaseNotesHelper = new ReleaseNotesHelper(configuration))
 		{
-			File addonArtifact = resolveAddonArtifact();
-			LOGGER.info("Resolved app artifact {}", addonArtifact.getName());
-			PluginDetails addonDetails = parseAddonArtifact(addonArtifact);
+			URI addonArtifact = resolveAddonArtifact();
+			LOGGER.info("Resolved app artifact {}", addonArtifact);
+			AppDetails appDetails = parseAppArtifact(addonArtifact);
 
-			Optional<Addon> addon = marketplace.getAddon(addonDetails.getPluginBean().getKey());
+			Optional<Addon> addon = marketplace.getAddon(appDetails.getKey());
 			if (addon.isEmpty())
 			{
-				LOGGER.error("Failed to locate app with key '{}'.", addonDetails.getPluginBean().getKey());
+				LOGGER.error("Failed to locate app with key '{}'.", appDetails.getKey());
 				System.exit(1);
 			}
 			else
 			{
 				LOGGER.info("Processing app artifact to collect release details...");
-				ReleaseDetails releaseDetails = new ReleaseDetails(addonDetails.getPluginBean().getPluginInfo().getVersion()).setStatus(
+				ReleaseDetails releaseDetails = new ReleaseDetails(appDetails.getVersion()).setStatus(
 								configuration.getVersionStatus().orElse(PUBLIC))
 						.setPaymentModel(configuration.getPaymentModel().orElse(PaymentModel.FREE))
 						.setPublisher(addon.map(Addon::getVendor)
 								              .flatMap(Option::toOptional)
 								              .map(VendorBase::getName)
-								              .orElseGet(() -> addonDetails.getPluginBean().getPluginInfo().getVendor().getName()));
+								              .orElseGet(appDetails::getVendorName));
 
-				releaseDetailsHelper.populateReleaseSummaryAndNotes(releaseDetails);
+				releaseNotesHelper.populateReleaseSummaryAndNotes(releaseDetails);
 
-				AddonVersion newVersion = marketplace.publishVersion(addonDetails, releaseDetails, addonArtifact);
+				AddonVersion newVersion = marketplace.publishVersion(appDetails, releaseDetails, addonArtifact);
 
 				String versionUrl = newVersion.getLinks()
 						.getLink("alternate", "text/html")
@@ -111,58 +107,9 @@ public class PublishToMarketplace
 		}
 	}
 
-	File resolveAddonArtifact()
+	URI resolveAddonArtifact()
 	{
-		Path workdir = configuration.getWorkingDirectory();
-		Predicate<Path> pathFilter;
-
-		String versionArtifact = normalizePath(configuration.getVersionArtifactPath());
-		if (versionArtifact.contains("*"))
-		{
-			LOGGER.info("Looking up version artifact using glob: {}", versionArtifact);
-			PathMatcher pathMatcher = workdir.getFileSystem().getPathMatcher("glob:" + versionArtifact);
-			pathFilter = pathMatcher::matches;
-		}
-		else
-		{
-			pathFilter = entry -> Objects.equals(workdir.relativize(entry).toString(), versionArtifact);
-		}
-
-		Set<Path> paths = new HashSet<>();
-		try
-		{
-			Files.walkFileTree(workdir, new SimpleFileVisitor<>()
-			{
-				@Override
-				public FileVisitResult visitFile(
-						Path file,
-						BasicFileAttributes attrs)
-				{
-					if (pathFilter.test(file))
-					{
-						paths.add(file);
-					}
-					return FileVisitResult.CONTINUE;
-				}
-			});
-		}
-		catch (IOException e)
-		{
-			throw new IllegalStateException("Unable to walk trough directory " + workdir, e);
-		}
-
-		if (paths.size() == 1)
-		{
-			return paths.iterator().next().toFile();
-		}
-		else
-		{
-			throw new IllegalArgumentException("Unable to locate a single artifact using " + versionArtifact);
-		}
-	}
-
-	private String normalizePath(String path)
-	{
-		return path.startsWith("/") ? path.substring(1) : path;
+		Selector selector = new Selector(configuration.getWorkingDirectory(), configuration.getVersionArtifactPath());
+		return selector.requireUnique().toUri();
 	}
 }

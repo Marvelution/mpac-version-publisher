@@ -23,17 +23,17 @@
 	<parent>
 		<groupId>org.marvelution</groupId>
 		<artifactId>open-source-parent</artifactId>
-		<version>17-SNAPSHOT</version>
+		<version>22</version>
 	</parent>
 	<groupId>org.marvelution.buildsupport</groupId>
 	<artifactId>atlassian-marketplace-version-publisher</artifactId>
-	<version>1</version>
+	<version>1-SNAPSHOT</version>
 
 	<name>Atlassian Marketplace Version Publisher</name>
 	<url>https://bitbucket.org/atlassian-marketplace-version-publisher/</url>
 	<inceptionYear>2023</inceptionYear>
 	<organization>
-		<name>Marvelution Holding B.V.</name>
+		<name>Marvelution B.V.</name>
 		<url>https://marvelution.com/</url>
 	</organization>
 	<licenses>
@@ -51,10 +51,24 @@
 	</scm>
 
 	<properties>
-		<project.jdk.revision>11</project.jdk.revision>
+		<project.jdk.release>11</project.jdk.release>
 		<git.repository.name>atlassian-marketplace-version-publisher</git.repository.name>
-		<marketplace.client.version>3.1.1</marketplace.client.version>
-		<logback.version>1.2.9</logback.version>
+
+		<atlassian.plugin.marketing.version>1.12</atlassian.plugin.marketing.version>
+		<commons.cli.version>1.8.0</commons.cli.version>
+		<commons.codec.version>1.17.0</commons.codec.version>
+		<commons.io.version>2.16.1</commons.io.version>
+		<commons.text.version>1.11.0</commons.text.version>
+		<marketplace.client.version>4.0.1</marketplace.client.version>
+		<fugue.version>5.0.0</fugue.version>
+		<gson.version>2.10.1</gson.version>
+		<httpclient.version>4.5.14</httpclient.version>
+		<jaxb.core.version>2.3.0.1</jaxb.core.version>
+		<jaxb.impl.version>2.3.2</jaxb.impl.version>
+		<jaxb.api.version>2.3.1</jaxb.api.version>
+		<logback.version>1.4.14</logback.version>
+		<slf4j.api.version>2.0.12</slf4j.api.version>
+		<testkits.version>1.17</testkits.version>
 	</properties>
 
 	<dependencyManagement>
@@ -62,7 +76,7 @@
 			<dependency>
 				<groupId>org.marvelution.testing</groupId>
 				<artifactId>testkits</artifactId>
-				<version>1.14-SNAPSHOT</version>
+				<version>${testkits.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -72,39 +86,27 @@
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
-			<version>2.3.1</version>
+			<version>${jaxb.api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>2.3.2</version>
+			<version>${jaxb.impl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-core</artifactId>
-			<version>2.3.0.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.atlassian.marketplace</groupId>
-			<artifactId>marketplace-client-java</artifactId>
-			<version>${marketplace.client.version}</version>
-			<classifier>dependencies</classifier>
-			<exclusions>
-				<exclusion>
-					<groupId>*</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>${jaxb.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.atlassian.plugin</groupId>
 			<artifactId>atlassian-plugin-marketing</artifactId>
-			<version>1.9</version>
+			<version>${atlassian.plugin.marketing.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
 			<artifactId>commons-cli</artifactId>
-			<version>1.5.0</version>
+			<version>${commons.cli.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -123,6 +125,62 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.atlassian.marketplace</groupId>
+			<artifactId>marketplace-client-java</artifactId>
+			<version>${marketplace.client.version}</version>
+		</dependency>
+		<!-- Dependencies copied from marketplace-client-java -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>${commons.codec.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons.io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>${commons.text.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-cache</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>${gson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.atlassian.fugue</groupId>
+			<artifactId>fugue</artifactId>
+			<version>${fugue.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.api.version}</version>
+		</dependency>
+
+		<!-- Test Dependencies -->
+		<dependency>
 			<groupId>org.marvelution.testing</groupId>
 			<artifactId>testkit</artifactId>
 			<scope>test</scope>
@@ -132,38 +190,75 @@
 	<build>
 		<plugins>
 			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<artifactId>maven-shade-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
 						<phase>package</phase>
 						<goals>
-							<goal>single</goal>
+							<goal>shade</goal>
 						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<minimizeJar>true</minimizeJar>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>**/module-info.class</exclude>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+										<exclude>META-INF/MANIFEST.MF</exclude>
+										<exclude>META-INF/DEPENDENCIES</exclude>
+									</excludes>
+								</filter>
+								<filter>
+									<artifact>com.sun.xml.bind:jaxb-core</artifact>
+									<excludes>
+										<exclude>com/sun/xml/bind/**</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"/>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+									<addHeader>false</addHeader>
+								</transformer>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<manifestEntries>
+										<Main-Class>org.marvelution.buildsupport.PublishToMarketplace</Main-Class>
+									</manifestEntries>
+								</transformer>
+							</transformers>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<attach>true</attach>
-					<appendAssemblyId>false</appendAssemblyId>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.marvelution.buildsupport.PublishToMarketplace</mainClass>
-						</manifest>
-					</archive>
-					<descriptors>
-						<descriptor>src/main/assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
+	<repositories>
+		<repository>
+			<id>marvelution-releases</id>
+			<url>https://packages.marvelution.com/maven/external-maven-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+		<repository>
+			<id>marvelution-snapshots</id>
+			<url>https://packages.marvelution.com/maven/external-maven-snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<developers>
 		<developer>
-			<name>Marvelution Holding B.V.</name>
-			<organization>Marvelution Holding B.V.</organization>
+			<name>Marvelution B.V.</name>
+			<organization>Marvelution B.V.</organization>
 			<organizationUrl>https://marvelution.com</organizationUrl>
 			<timezone>+1</timezone>
 		</developer>

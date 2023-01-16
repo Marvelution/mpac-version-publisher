@@ -7,7 +7,6 @@
 		"status": 201,
 		"bodyFileName": "addonversions-createVersion.json",
 		"transformers": [
-			"response-template",
 			"response-as-mapping"
 		],
 		"headers": {

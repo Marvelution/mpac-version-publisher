@@ -13,27 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.marvelution.buildsupport.helper;
+package org.marvelution.buildsupport.model;
 
-import org.marvelution.testing.wiremock.*;
+import java.util.*;
 
-import com.github.tomakehurst.wiremock.core.*;
-import com.github.tomakehurst.wiremock.extension.responsetemplating.*;
+import com.atlassian.marketplace.client.model.*;
+import com.atlassian.plugin.marketing.bean.*;
 
-/**
- * {@link WireMockServer} options for a preconfigured fake Jira instance.
- *
- * @author Mark Rekveld
- */
-public class FakeJiraOptions
-		extends WireMockConfiguration
+public interface AppDetails
 {
 
-	public FakeJiraOptions()
-	{
-		dynamicPort();
-		usingFilesUnderClasspath("fake-jira");
-		extensions(new BasicAuthenticationRequestFilter());
-		notifier(new LoggingNotifier("FakeJira"));
-	}
+	AppType getAppType();
+
+	String getKey();
+
+	String getName();
+
+	String getVersion();
+
+	String getVendorName();
+
+	List<ProductCompatibility> getCompatibilities();
 }

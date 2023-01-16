@@ -15,21 +15,21 @@
  */
 package org.marvelution.buildsupport.helper;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
-import org.marvelution.testing.wiremock.*;
+import org.marvelution.testing.wiremock.WireMockServer;
 
-import com.github.jknack.handlebars.Options;
-import com.github.jknack.handlebars.*;
-import com.github.tomakehurst.wiremock.common.FileSource;
-import com.github.tomakehurst.wiremock.core.*;
-import com.github.tomakehurst.wiremock.extension.*;
-import com.github.tomakehurst.wiremock.extension.responsetemplating.*;
-import com.github.tomakehurst.wiremock.http.*;
-import org.apache.commons.text.*;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+import com.github.tomakehurst.wiremock.extension.ResponseDefinitionTransformerV2;
+import com.github.tomakehurst.wiremock.extension.WireMockServices;
+import com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer;
+import com.github.tomakehurst.wiremock.http.HttpHeader;
+import com.github.tomakehurst.wiremock.http.ResponseDefinition;
+import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
 
 /**
  * {@link WireMockServer} options for a preconfigured fake Marketplace instance.
@@ -37,77 +37,78 @@ import org.apache.commons.text.*;
  * @author Mark Rekveld
  */
 public class FakeMarketplaceOptions
-		extends WireMockConfiguration
+        extends WireMockConfiguration
 {
 
-	public FakeMarketplaceOptions()
-	{
-		dynamicPort();
-		try
-		{
-			usingFilesUnderDirectory(
-					Paths.get(Optional.ofNullable(getClass().getClassLoader().getResource("fake-marketplace")).orElseThrow().toURI())
-							.toString());
-		}
-		catch (URISyntaxException e)
-		{
-			throw new IllegalStateException("unable to locate fake-marketplace WireMock files", e);
-		}
-		extensions(new ResponseTemplateTransformer(false, "escape", new QuoteEscaperHelper()), new ResponseAsMappingTransformer(),
-		           new BasicAuthenticationRequestFilter());
-		notifier(new LoggingNotifier("FakeMarketplace"));
-	}
+    public FakeMarketplaceOptions()
+    {
+        dynamicPort();
+        try
+        {
+            usingFilesUnderDirectory(Paths.get(Optional.ofNullable(getClass().getClassLoader()
+                                    .getResource("fake-marketplace"))
+                            .orElseThrow()
+                            .toURI())
+                    .toString());
+        }
+        catch (URISyntaxException e)
+        {
+            throw new IllegalStateException("unable to locate fake-marketplace WireMock files", e);
+        }
+        extensions(new BasicAuthenticationRequestFilter());
+        extensions(services -> List.of(new ResponseAsMappingTransformer(services)));
+        notifier(new LoggingNotifier("FakeMarketplace"));
+    }
 
-	/**
-	 * {@link ResponseDefinitionTransformer} that registers a new stub mapping when a new version is published.
-	 */
-	private static class ResponseAsMappingTransformer
-			extends ResponseDefinitionTransformer
-	{
+    private static class ResponseAsMappingTransformer
+            implements ResponseDefinitionTransformerV2
+    {
+        private final WireMockServices services;
 
-		@Override
-		public String getName()
-		{
-			return "response-as-mapping";
-		}
+        private ResponseAsMappingTransformer(WireMockServices services)
+        {
+            this.services = services;
+        }
 
-		@Override
-		public ResponseDefinition transform(
-				Request request,
-				ResponseDefinition responseDefinition,
-				FileSource files,
-				Parameters parameters)
-		{
-			HttpHeader location = responseDefinition.getHeaders().getHeader("Location");
-			HttpHeader mappingFile = responseDefinition.getHeaders().getHeader("MappingFile");
-			if (location.isPresent() && mappingFile.isPresent())
-			{
-				files.writeBinaryFile(mappingFile.firstValue(), responseDefinition.getByteBody());
-			}
-			return responseDefinition;
-		}
+        @Override
+        public String getName()
+        {
+            return "response-as-mapping";
+        }
 
-		@Override
-		public boolean applyGlobally()
-		{
-			return false;
-		}
-	}
+        @Override
+        public ResponseDefinition transform(ServeEvent serveEvent)
+        {
+            ResponseTemplateTransformer transformer = services.getExtensions()
+                    .ofType(ResponseTemplateTransformer.class)
+                    .values()
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(NoSuchElementException::new);
+            ResponseDefinition responseDefinition = transformer.transform(serveEvent);
+            HttpHeader location = responseDefinition.getHeaders()
+                    .getHeader("Location");
+            HttpHeader mappingFile = responseDefinition.getHeaders()
+                    .getHeader("MappingFile");
+            if (location.isPresent() && mappingFile.isPresent())
+            {
+                try
+                {
+                    services.getFiles()
+                            .writeBinaryFile(mappingFile.firstValue(), responseDefinition.getByteBody());
+                }
+                catch (Exception e)
+                {
+                    throw new RuntimeException(e);
+                }
+            }
+            return responseDefinition;
+        }
 
-	/**
-	 * Simple {@link Helper} that escapes single and double quotes.
-	 */
-	private static class QuoteEscaperHelper
-			implements Helper<Object>
-	{
-
-		@Override
-		public Object apply(
-				Object context,
-				Options options)
-				throws IOException
-		{
-			return StringEscapeUtils.escapeJava(options.fn(context).toString());
-		}
-	}
+        @Override
+        public boolean applyGlobally()
+        {
+            return false;
+        }
+    }
 }

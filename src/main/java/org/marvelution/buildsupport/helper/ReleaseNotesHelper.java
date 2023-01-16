@@ -17,6 +17,8 @@ package org.marvelution.buildsupport.helper;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.*;
+import java.nio.file.*;
 import java.util.*;
 
 import org.marvelution.buildsupport.configuration.*;
@@ -35,27 +37,31 @@ import static org.apache.commons.lang3.StringUtils.*;
  *
  * @author Mark Rekveld
  */
-public class ReleaseDetailsHelper
+public class ReleaseNotesHelper
 		implements Closeable
 {
 
 	public static final String MORE_ISSUES_FORMAT = "<p>Showing %1$s of <a href=\"%3$s\">%2$s issues</a>.</p>";
 	public static final String ISSUE_LINK_FORMAT = "<li><a href=\"%4$s/browse/%1$s\">%1$s</a> %2$s (%3$s)</li>";
 	public static final String JQL = "project = '%s' AND fixVersion = '%s' AND statusCategory = Done %s ORDER BY priority DESC, issuekey ASC";
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReleaseDetailsHelper.class);
-	private final JiraHelper jiraClient;
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReleaseNotesHelper.class);
+	private final JiraHelper jiraHelper;
 	private final String versionNameFormat;
+	private final Selector notesSelector;
 	private String projectKey;
 	private String additionalJql;
 
-	public ReleaseDetailsHelper(PublisherConfiguration configuration)
+	public ReleaseNotesHelper(PublisherConfiguration configuration)
 	{
-		jiraClient = configuration.getJiraBaseUrl()
+		notesSelector = configuration.getReleaseNotesPath()
+				.map(selector -> new Selector(configuration.getWorkingDirectory(), selector))
+				.orElse(null);
+		jiraHelper = configuration.getJiraBaseUrl()
 				.map(uri -> new JiraHelper(uri, new HttpConfiguration.Credentials(configuration.getJiraUsername(),
 				                                                                  configuration.getJiraToken())))
 				.orElse(null);
 		versionNameFormat = configuration.getJiraVersionFormat().orElse("%s");
-		if (jiraClient != null)
+		if (jiraHelper != null)
 		{
 			projectKey = configuration.getJiraProjectKey();
 			if (configuration.useIssueSecurityFilter())
@@ -69,15 +75,15 @@ public class ReleaseDetailsHelper
 	@Override
 	public void close()
 	{
-		if (jiraClient != null)
+		if (jiraHelper != null)
 		{
-			jiraClient.close();
+			jiraHelper.close();
 		}
 	}
 
 	public void populateReleaseSummaryAndNotes(ReleaseDetails releaseDetails)
 	{
-		if (jiraClient == null)
+		if (jiraHelper == null)
 		{
 			releaseDetails.setReleaseSummary(getDefaultReleaseSummary(releaseDetails.getVersion()))
 					.setReleaseNotes(getDefaultReleaseNotes());
@@ -85,7 +91,7 @@ public class ReleaseDetailsHelper
 		else
 		{
 			String versionName = format(versionNameFormat, releaseDetails.getVersion());
-			Optional<JiraVersion> jiraVersion = jiraClient.getProjectVersion(projectKey, versionName);
+			Optional<JiraVersion> jiraVersion = jiraHelper.getProjectVersion(projectKey, versionName);
 
 			jiraVersion.map(JiraVersion::getDescription)
 					.filter(StringUtils::isNotBlank)
@@ -107,11 +113,12 @@ public class ReleaseDetailsHelper
 		LOGGER.info("Searching for issues using JQL '{}'", request.getJql());
 		try
 		{
-			SearchResults searchResults = jiraClient.searchIssues(request);
+			SearchResults searchResults = jiraHelper.searchIssues(request);
 			if (searchResults.getTotal() > 0)
 			{
 				LOGGER.info("Found {} issues, including {} in the release notes.", searchResults.getTotal(), searchResults.getMaxResults());
-				String jiraDisplayUrl = stripEnd(jiraClient.getBaseUri().toASCIIString(), "/");
+				String jiraDisplayUrl = stripEnd(jiraHelper.getBaseUri()
+						.toASCIIString(), "/");
 				StringBuilder notes = new StringBuilder().append("<p><ul>");
 
 				searchResults.getIssues()
@@ -122,7 +129,10 @@ public class ReleaseDetailsHelper
 				notes.append("</ul></p>");
 				if (searchResults.getTotal() > searchResults.getMaxResults())
 				{
-					URI link = UriBuilder.fromUri(jiraClient.getBaseUri()).path("/issues").queryParam("jql", request.getJql()).build();
+					URI link = UriBuilder.fromUri(jiraHelper.getBaseUri())
+							.path("issues")
+							.queryParam("jql", request.getJql())
+							.build();
 					notes.append(format(MORE_ISSUES_FORMAT, searchResults.getMaxResults(), searchResults.getTotal(), link));
 				}
 				return Optional.of(notes.toString());
@@ -158,6 +168,26 @@ public class ReleaseDetailsHelper
 
 	private String getDefaultReleaseNotes()
 	{
-		return "";
+		if (notesSelector != null)
+		{
+			return notesSelector.unique()
+					.map(path -> {
+						try
+						{
+							String content = String.join("", Files.readAllLines(path, StandardCharsets.UTF_8));
+							return content.replaceAll("<!--(.*?)-->", "");
+						}
+						catch (IOException e)
+						{
+							LOGGER.error("Error reading content of {}", path, e);
+							return null;
+						}
+					})
+					.orElse("");
+		}
+		else
+		{
+			return "";
+		}
 	}
 }

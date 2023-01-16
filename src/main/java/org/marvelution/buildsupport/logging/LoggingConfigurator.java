@@ -43,7 +43,7 @@ public class LoggingConfigurator
 
 	public LoggingConfigurator()
 	{
-		this(Boolean.parseBoolean(System.getenv(Variables.DEBUG)));
+		this(Boolean.parseBoolean(System.getenv(EnvironmentPublisherConfiguration.DEBUG)));
 	}
 
 	public LoggingConfigurator(boolean debugEnabled)
@@ -54,11 +54,12 @@ public class LoggingConfigurator
 	public void configure()
 	{
 		LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+		setContext(loggerContext);
 		configure(loggerContext);
 	}
 
 	@Override
-	public void configure(LoggerContext loggerContext)
+	public ExecutionStatus configure(LoggerContext loggerContext)
 	{
 		addInfo("Setting up logging configuration.");
 
@@ -89,5 +90,6 @@ public class LoggingConfigurator
 		{
 			rootLogger.setLevel(INFO);
 		}
+		return ExecutionStatus.NEUTRAL;
 	}
 }

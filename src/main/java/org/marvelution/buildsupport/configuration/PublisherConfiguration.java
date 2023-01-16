@@ -37,6 +37,16 @@ public interface PublisherConfiguration
 
 	String getMarketplaceToken();
 
+	Optional<AddonVersionStatus> getVersionStatus();
+
+	Optional<PaymentModel> getPaymentModel();
+
+	String getVersionArtifactPath();
+
+	boolean dryRun();
+
+    Optional<String> getReleaseNotesPath();
+
 	Optional<URI> getJiraBaseUrl();
 
 	String getJiraUsername();
@@ -50,12 +60,4 @@ public interface PublisherConfiguration
 	Optional<String> getAdditionalJQL();
 
 	boolean useIssueSecurityFilter();
-
-	Optional<AddonVersionStatus> getVersionStatus();
-
-	Optional<PaymentModel> getPaymentModel();
-
-	String getVersionArtifactPath();
-
-	boolean dryRun();
 }
