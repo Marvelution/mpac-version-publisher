@@ -15,11 +15,15 @@
  */
 package org.marvelution.buildsupport.logging;
 
+import org.marvelution.buildsupport.configuration.*;
+
 import ch.qos.logback.classic.*;
+import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.*;
 import ch.qos.logback.core.*;
 import ch.qos.logback.core.encoder.*;
 import ch.qos.logback.core.spi.*;
+import org.slf4j.*;
 
 import static ch.qos.logback.classic.Level.*;
 import static org.slf4j.Logger.*;
@@ -39,13 +43,24 @@ public class LoggingConfigurator
 
 	public LoggingConfigurator()
 	{
-		debugEnabled = Boolean.parseBoolean(System.getenv("DEBUG"));
+		this(Boolean.parseBoolean(System.getenv(Variables.DEBUG)));
+	}
+
+	public LoggingConfigurator(boolean debugEnabled)
+	{
+		this.debugEnabled = debugEnabled;
+	}
+
+	public void configure()
+	{
+		LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
+		configure(loggerContext);
 	}
 
 	@Override
 	public void configure(LoggerContext loggerContext)
 	{
-		addInfo("Setting up pipe configuration.");
+		addInfo("Setting up logging configuration.");
 
 		PatternLayout layout = new PatternLayout();
 		layout.getDefaultConverterMap().put("ex", PublisherThrowableProxyConverter.class.getName());
@@ -64,6 +79,7 @@ public class LoggingConfigurator
 		console.start();
 
 		Logger rootLogger = loggerContext.getLogger(ROOT_LOGGER_NAME);
+		rootLogger.detachAndStopAllAppenders();
 		rootLogger.addAppender(console);
 		if (debugEnabled)
 		{

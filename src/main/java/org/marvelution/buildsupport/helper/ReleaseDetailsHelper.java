@@ -19,7 +19,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import org.marvelution.buildsupport.*;
+import org.marvelution.buildsupport.configuration.*;
 import org.marvelution.buildsupport.model.*;
 
 import com.atlassian.marketplace.client.http.*;

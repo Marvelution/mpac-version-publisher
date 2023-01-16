@@ -21,6 +21,7 @@ import java.nio.file.attribute.*;
 import java.util.*;
 import java.util.function.*;
 
+import org.marvelution.buildsupport.configuration.*;
 import org.marvelution.buildsupport.helper.*;
 import org.marvelution.buildsupport.model.*;
 
@@ -53,7 +54,7 @@ public class PublishToMarketplace
 	{
 		try
 		{
-			new PublishToMarketplace(new EnvironmentPublisherConfiguration()).run();
+			new PublishToMarketplace(PublisherConfigurationBuilder.build(args)).run();
 		}
 		catch (IllegalArgumentException | IllegalStateException e)
 		{

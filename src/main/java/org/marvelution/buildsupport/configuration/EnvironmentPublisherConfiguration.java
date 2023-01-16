@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.marvelution.buildsupport;
+package org.marvelution.buildsupport.configuration;
 
 import java.net.*;
 import java.nio.file.*;
@@ -25,7 +25,7 @@ import com.atlassian.marketplace.client.api.*;
 import com.atlassian.marketplace.client.model.*;
 import org.apache.commons.lang3.*;
 
-import static org.marvelution.buildsupport.Variables.*;
+import static org.marvelution.buildsupport.configuration.Variables.*;
 
 /**
  * Pipe Configuration holder.
@@ -35,7 +35,6 @@ import static org.marvelution.buildsupport.Variables.*;
 public class EnvironmentPublisherConfiguration
 		implements PublisherConfiguration
 {
-
 	private final UnaryOperator<String> operator;
 	private Path workdir;
 
@@ -79,13 +78,13 @@ public class EnvironmentPublisherConfiguration
 	@Override
 	public String getMarketplaceUsername()
 	{
-		return getVariable(Variables.MARKETPLACE_USER).orElseThrow(() -> new IllegalArgumentException("Missing marketplace username"));
+		return getRequiredVariable(Variables.MARKETPLACE_USER);
 	}
 
 	@Override
 	public String getMarketplaceToken()
 	{
-		return getVariable(MARKETPLACE_TOKEN).orElseThrow(() -> new IllegalArgumentException("Missing marketplace token"));
+		return getRequiredVariable(MARKETPLACE_TOKEN);
 	}
 
 	@Override
@@ -97,19 +96,19 @@ public class EnvironmentPublisherConfiguration
 	@Override
 	public String getJiraUsername()
 	{
-		return getVariable(JIRA_API_USER).orElseThrow(() -> new IllegalArgumentException("Missing jira username"));
+		return getRequiredVariable(JIRA_API_USER);
 	}
 
 	@Override
 	public String getJiraToken()
 	{
-		return getVariable(JIRA_API_TOKEN).orElseThrow(() -> new IllegalArgumentException("Missing jira token"));
+		return getRequiredVariable(JIRA_API_TOKEN);
 	}
 
 	@Override
 	public String getJiraProjectKey()
 	{
-		return getVariable(JIRA_PROJECT_KEY).orElseThrow(() -> new IllegalArgumentException("Missing Jira project key"));
+		return getRequiredVariable(JIRA_PROJECT_KEY);
 	}
 
 	@Override
@@ -145,7 +144,13 @@ public class EnvironmentPublisherConfiguration
 	@Override
 	public String getVersionArtifactPath()
 	{
-		return getVariable(VERSION_ARTIFACT).orElseThrow(() -> new IllegalArgumentException("missing version artifact path"));
+		return getRequiredVariable(VERSION_ARTIFACT);
+	}
+
+	@Override
+	public boolean dryRun()
+	{
+		return getVariable(DRY_RUN).map(Boolean::parseBoolean).orElse(false);
 	}
 
 	private Optional<URI> getUri(String key)
@@ -166,5 +171,10 @@ public class EnvironmentPublisherConfiguration
 	private Optional<String> getVariable(String key)
 	{
 		return Optional.ofNullable(operator.apply(key)).filter(StringUtils::isNotBlank);
+	}
+
+	private String getRequiredVariable(String key)
+	{
+		return getVariable(key).orElseThrow(() -> new IllegalArgumentException("Missing " + key + " variable"));
 	}
 }

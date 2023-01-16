@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.marvelution.buildsupport;
+package org.marvelution.buildsupport.configuration;
 
 import java.net.*;
 import java.nio.file.*;
@@ -56,4 +56,6 @@ public interface PublisherConfiguration
 	Optional<PaymentModel> getPaymentModel();
 
 	String getVersionArtifactPath();
+
+	boolean dryRun();
 }

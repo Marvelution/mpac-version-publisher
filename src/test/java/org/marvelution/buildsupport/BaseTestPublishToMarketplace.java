@@ -22,6 +22,7 @@ import java.util.*;
 import java.util.stream.*;
 import javax.annotation.*;
 
+import org.marvelution.buildsupport.configuration.*;
 import org.marvelution.buildsupport.helper.*;
 import org.marvelution.buildsupport.model.*;
 import org.marvelution.testing.*;
@@ -39,7 +40,6 @@ import org.junit.jupiter.api.extension.*;
 import org.junit.jupiter.params.*;
 import org.junit.jupiter.params.provider.*;
 
-import static org.marvelution.buildsupport.Variables.*;
 import static org.marvelution.buildsupport.helper.BasicAuthenticationRequestFilter.*;
 import static org.marvelution.buildsupport.helper.MarketplaceHelper.*;
 
@@ -53,14 +53,13 @@ import static org.assertj.core.api.Assertions.*;
  *
  * @author Mark Rekveld
  */
-class PublishToMarketplaceTest
+abstract class BaseTestPublishToMarketplace
 		extends TestSupport
 {
 
-	private Map<String, String> configuration;
 	private PublishToMarketplace publishToMarketplace;
 
-	private static Stream<Arguments> resolveAddonArtifact()
+	public static Stream<Arguments> resolveAddonArtifact()
 	{
 		Path cloneDir = getWorkDir();
 		return Stream.of(Arguments.of("/simple-app/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")),
@@ -68,7 +67,7 @@ class PublishToMarketplaceTest
 		                 Arguments.of("**/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")));
 	}
 
-	private static Path getWorkDir()
+	static Path getWorkDir()
 	{
 		try
 		{
@@ -81,11 +80,56 @@ class PublishToMarketplaceTest
 		}
 	}
 
-	@BeforeEach
-	void setUp()
+	abstract PublisherConfiguration createConfiguration(
+			String marketplaceUrl,
+			String marketplaceUser,
+			String marketplaceToken,
+			String versionArtifact,
+			AddonVersionStatus versionStatus,
+			PaymentModel paymentModel,
+			String jiraUrl,
+			String jiraUser,
+			String jiraToken,
+			String project,
+			String versionFormat,
+			boolean useIssueSecurity,
+			String additionalJql,
+			Path workDir);
+
+	void setUpPublisher(String versionArtifact)
 	{
-		configuration = new HashMap<>();
-		publishToMarketplace = new PublishToMarketplace(new EnvironmentPublisherConfiguration(configuration::get, getWorkDir()));
+		setUpPublisher(null, null, null, versionArtifact);
+	}
+
+	void setUpPublisher(
+			String marketplaceUrl,
+			String marketplaceUser,
+			String marketplaceToken,
+			String versionArtifact)
+	{
+		setUpPublisher(marketplaceUrl, marketplaceUser, marketplaceToken, versionArtifact, null, null, null, null, null, null, null, false,
+		               null);
+	}
+
+	void setUpPublisher(
+			String marketplaceUrl,
+			String marketplaceUser,
+			String marketplaceToken,
+			String versionArtifact,
+			AddonVersionStatus versionStatus,
+			PaymentModel paymentModel,
+			String jiraUrl,
+			String jiraUser,
+			String jiraToken,
+			String project,
+			String versionFormat,
+			boolean useIssueSecurity,
+			String additionalJql)
+	{
+		PublisherConfiguration configuration = createConfiguration(marketplaceUrl, marketplaceUser, marketplaceToken, versionArtifact,
+		                                                           versionStatus, paymentModel, jiraUrl, jiraUser, jiraToken, project,
+		                                                           versionFormat, useIssueSecurity, additionalJql, getWorkDir());
+		publishToMarketplace = new PublishToMarketplace(configuration);
 	}
 
 	@ParameterizedTest
@@ -94,7 +138,7 @@ class PublishToMarketplaceTest
 			String versionArtifact,
 			Path expectedPath)
 	{
-		configuration.put(VERSION_ARTIFACT, versionArtifact);
+		setUpPublisher(versionArtifact);
 
 		File resolvedVersionArtifact = publishToMarketplace.resolveAddonArtifact();
 		assertThat(resolvedVersionArtifact).isEqualTo(expectedPath.toFile());
@@ -103,7 +147,7 @@ class PublishToMarketplaceTest
 	@Test
 	void testResolveAddonArtifact()
 	{
-		configuration.put(VERSION_ARTIFACT, "**/*.jar");
+		setUpPublisher("**/*.jar");
 
 		assertThatThrownBy(publishToMarketplace::resolveAddonArtifact).hasMessage("Unable to locate a single artifact using **/*.jar")
 				.isInstanceOf(IllegalArgumentException.class);
@@ -131,11 +175,7 @@ class PublishToMarketplaceTest
 		void testPublishVersionMinimalConfiguration()
 				throws Exception
 		{
-			configuration.put(MARKETPLACE_BASE_URL, marketplace.baseUrl());
-			configuration.put(MARKETPLACE_USER, ADMIN);
-			configuration.put(MARKETPLACE_TOKEN, ADMIN);
-			configuration.put(VERSION_ARTIFACT, "**/simple-app-1.0.0.obr");
-			configuration.put(DEBUG, "true");
+			setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-1.0.0.obr");
 
 			publishToMarketplace.run();
 
@@ -154,11 +194,7 @@ class PublishToMarketplaceTest
 		void testPublishDataCenterVersionMinimalConfiguration()
 				throws Exception
 		{
-			configuration.put(MARKETPLACE_BASE_URL, marketplace.baseUrl());
-			configuration.put(MARKETPLACE_USER, ADMIN);
-			configuration.put(MARKETPLACE_TOKEN, ADMIN);
-			configuration.put(VERSION_ARTIFACT, "**/simple-app-dc-1.0.0.jar");
-			configuration.put(DEBUG, "true");
+			setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-dc-1.0.0.jar");
 
 			publishToMarketplace.run();
 
@@ -177,11 +213,7 @@ class PublishToMarketplaceTest
 		void testPublishVersionMinimalConfigurationNoMarketing()
 				throws Exception
 		{
-			configuration.put(MARKETPLACE_BASE_URL, marketplace.baseUrl());
-			configuration.put(MARKETPLACE_USER, ADMIN);
-			configuration.put(MARKETPLACE_TOKEN, ADMIN);
-			configuration.put(VERSION_ARTIFACT, "**/simple-app-no-marketing-1.0.0.jar");
-			configuration.put(DEBUG, "true");
+			setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-no-marketing-1.0.0.jar");
 
 			publishToMarketplace.run();
 
@@ -200,20 +232,9 @@ class PublishToMarketplaceTest
 		void testPublishVersionFullConfiguration()
 				throws Exception
 		{
-			configuration.put(MARKETPLACE_BASE_URL, marketplace.baseUrl());
-			configuration.put(MARKETPLACE_USER, ADMIN);
-			configuration.put(MARKETPLACE_TOKEN, ADMIN);
-			configuration.put(VERSION_ARTIFACT, "**/simple-app-1.0.0.obr");
-			configuration.put(VERSION_STATUS, AddonVersionStatus.PRIVATE.getKey());
-			configuration.put(VERSION_PAYMENT_MODEL, PaymentModel.PAID_VIA_ATLASSIAN.getKey());
-			configuration.put(JIRA_BASE_URL, jira.baseUrl());
-			configuration.put(JIRA_API_USER, ADMIN);
-			configuration.put(JIRA_API_TOKEN, ADMIN);
-			configuration.put(JIRA_PROJECT_KEY, "TP");
-			configuration.put(JIRA_VERSION_FORMAT, "server-%s");
-			configuration.put(ISSUE_SECURITY_LEVEL_FILTER, "true");
-			configuration.put(ADDITIONAL_JQL, "category = Open-Source");
-			configuration.put(DEBUG, "true");
+			setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-1.0.0.obr", AddonVersionStatus.PRIVATE,
+			               PaymentModel.PAID_VIA_ATLASSIAN, jira.baseUrl(), ADMIN, ADMIN, "TP", "server-%s", true,
+			               "category = Open-Source");
 
 			publishToMarketplace.run();
 

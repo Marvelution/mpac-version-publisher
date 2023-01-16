@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.marvelution.buildsupport;
+package org.marvelution.buildsupport.configuration;
 
 /**
  * Variables used by the Pipe.
@@ -24,6 +24,7 @@ public class Variables
 {
 
 	public static final String DEBUG = "DEBUG";
+	public static final String DRY_RUN = "DRY_RUN";
 	public static final String MARKETPLACE = "MARKETPLACE";
 	public static final String VERSION_ARTIFACT = "VERSION_ARTIFACT";
 	public static final String VERSION_STATUS = "VERSION_STATUS";

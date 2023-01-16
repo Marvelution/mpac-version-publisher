@@ -23,7 +23,7 @@ import java.util.stream.*;
 import java.util.zip.*;
 import javax.annotation.*;
 
-import org.marvelution.buildsupport.*;
+import org.marvelution.buildsupport.configuration.*;
 import org.marvelution.buildsupport.model.*;
 
 import com.atlassian.marketplace.client.*;
@@ -58,12 +58,14 @@ public class MarketplaceHelper
 	private static final Logger LOGGER = LoggerFactory.getLogger(MarketplaceHelper.class);
 	private static final Set<String> SUPPORTED_ADDON_ARTIFACT_EXTENSIONS = Stream.of("jar", "obr").collect(toSet());
 	private static final String PLUGIN_TYPE = "plugin-type";
+	private final boolean dryRun;
 	private final URI baseUri;
 	private final String username;
 	private final MarketplaceClient client;
 
 	public MarketplaceHelper(PublisherConfiguration configuration)
 	{
+		dryRun = configuration.dryRun();
 		baseUri = configuration.getMarketplaceBaseUrl().orElse(DEFAULT_MARKETPLACE_URI);
 		username = configuration.getMarketplaceUsername();
 		client = new DefaultMarketplaceClient(baseUri, new CommonsHttpTransport(
@@ -151,8 +153,16 @@ public class MarketplaceHelper
 					.orElse(PluginType.SERVER);
 
 			LOGGER.info("Uploading {}", addonArtifact);
-			ArtifactId addonArtifactId = client.assets().uploadAddonArtifact(addonArtifact);
-			LOGGER.debug("Uploaded {} to {}", addonArtifact, addonArtifactId);
+			ArtifactId addonArtifactId;
+			if (dryRun)
+			{
+				addonArtifactId = ArtifactId.fromUri(addonArtifact.toURI());
+			}
+			else
+			{
+				addonArtifactId = client.assets().uploadAddonArtifact(addonArtifact);
+				LOGGER.debug("Uploaded {} to {}", addonArtifact, addonArtifactId);
+			}
 
 			LOGGER.info("Locating latest version to base new version on.");
 			AddonVersion latest = getLatestAddonVersion(addonDetails.getPluginBean().getKey(), pluginType);
@@ -162,7 +172,16 @@ public class MarketplaceHelper
 			                                           addonDetails.getMarketingBean());
 			LOGGER.info("Created version {} (#{}) for artifact {}", releaseDetails.getVersion(), newVersion.getBuildNumber(),
 			            addonArtifactId);
-			return client.addons().createVersion(addonDetails.getPluginBean().getKey(), newVersion);
+			if (dryRun)
+			{
+				LOGGER.warn("Skipping the publishing of {} to Marketplace", releaseDetails.getVersion());
+				return newVersion;
+			}
+			else
+			{
+				LOGGER.info("Publishing version {} to the Marketplace", releaseDetails.getVersion());
+				return client.addons().createVersion(addonDetails.getPluginBean().getKey(), newVersion);
+			}
 		}
 		catch (MpacException e)
 		{
