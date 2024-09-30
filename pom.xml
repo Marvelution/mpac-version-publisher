@@ -30,12 +30,24 @@
 	<scm>
 		<connection>scm:git:${git.origin}</connection>
 		<developerConnection>scm:git:${git.origin}</developerConnection>
-		<url>https://bitbucket.org/marvelution/${git.repository.name}</url>
+		<url>${git.repository.url}</url>
 	</scm>
 
 	<properties>
 		<project.jdk.release>11</project.jdk.release>
-		<git.repository.name>atlassian-marketplace-version-publisher</git.repository.name>
+		<git.repository.owner>Marvelution</git.repository.owner>
+		<git.repository.host>github.com</git.repository.host>
+		<git.repository.name>mpac-version-publisher</git.repository.name>
+
+		<!--
+		TODO To update the distribution repository details update the properties below
+		<repository.serverId>marvelution-public</repository.serverId>
+		<repository.baseUrl></repository.baseUrl>
+		<release.repository.id>${repository.serverId}</release.repository.id>
+		<release.repository>releases</release.repository>
+		<snapshot.repository.id>${repository.serverId}</snapshot.repository.id>
+		<snapshot.repository>snapshots</snapshot.repository>
+		-->
 
 		<atlassian.plugin.marketing.version>1.12</atlassian.plugin.marketing.version>
 		<commons.cli.version>1.8.0</commons.cli.version>
