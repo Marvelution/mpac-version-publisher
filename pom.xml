@@ -9,7 +9,7 @@
 		<version>22</version>
 	</parent>
 	<groupId>org.marvelution.buildsupport</groupId>
-	<artifactId>atlassian-marketplace-version-publisher</artifactId>
+	<artifactId>mpac-version-publisher</artifactId>
 	<version>1-SNAPSHOT</version>
 
 	<name>Atlassian Marketplace Version Publisher</name>
