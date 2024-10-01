@@ -13,6 +13,8 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: Build
+        run: make build MVN_FLAGS=-B -e
       - name: Run tests
         run: make test MVN_FLAGS=-B -e
       - name: Publish Test Report
