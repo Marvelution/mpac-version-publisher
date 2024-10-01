@@ -44,3 +44,11 @@ jobs:
           # gpg_passphrase: ${{ secrets.gpg_passphrase }}
           nexus_username: ${{ secrets.nexus_username }}
           nexus_password: ${{ secrets.nexus_password }}
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            target/cli-${{ github.ref_name }}-shaded.jar
+            target/core-${{ github.ref_name }}-shaded.jar
