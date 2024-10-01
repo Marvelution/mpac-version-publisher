@@ -103,3 +103,12 @@ make test
 # or
 ./mvnw clean test
 ```
+
+### Release
+
+Create a release tag and push those tags
+
+```bash
+git tag 0.0.1
+git push --tags
+```
