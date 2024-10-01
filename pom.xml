@@ -115,6 +115,19 @@
     </repository>
 	</repositories>
 
+  <distributionManagement>
+    <repository>
+      <name>marvelution-releases</name>
+      <id>marvelution-releases</id>
+      <url>https://packages.marvelution.com/maven/external-maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>marvelution-snapshots</id>
+      <name>marvelution-snapshots</name>
+      <url>https://nexus.kw.kontextwork.com/repository/kw-maven-snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
 	<developers>
 		<developer>
 			<name>Marvelution B.V.</name>
