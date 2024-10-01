@@ -1,12 +1,10 @@
 {
-	"key": "org.marvelution.buildsupport.test.simple-app",
-	"name": "BuildSupport Test Simple App",
-	"description": "Just a test simple app",
-
-	"vendor": {
-		"name": "Marvelution B.V.",
-		"url": "https://www.marvelution.com"
-	},
-
-	"baseUrl": "https://simple-app.exmaple.com"
+  "key": "org.marvelution.buildsupport.test.simple-app",
+  "name": "BuildSupport Test Simple App",
+  "description": "Just a test simple app",
+  "vendor": {
+    "name": "Marvelution B.V.",
+    "url": "https://www.marvelution.com"
+  },
+  "baseUrl": "https://simple-app.exmaple.com"
 }

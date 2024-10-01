@@ -1,13 +1,13 @@
 {
-	"request": {
-		"method": "GET",
-		"url": "/rest/2/"
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "root.json",
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "method": "GET",
+    "url": "/rest/2/"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "root.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

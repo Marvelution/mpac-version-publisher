@@ -1,10 +1,11 @@
 package org.marvelution.buildsupport.configuration;
 
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
+import java.net.URI;
+import java.nio.file.Path;
+import java.util.Optional;
 
-import com.atlassian.marketplace.client.model.*;
+import com.atlassian.marketplace.client.model.AddonVersionStatus;
+import com.atlassian.marketplace.client.model.PaymentModel;
 
 /**
  * Pipe Configuration holder.
@@ -14,35 +15,35 @@ import com.atlassian.marketplace.client.model.*;
 public interface PublisherConfiguration
 {
 
-	Path getWorkingDirectory();
+    Path getWorkingDirectory();
 
-	Optional<URI> getMarketplaceBaseUrl();
+    Optional<URI> getMarketplaceBaseUrl();
 
-	String getMarketplaceUsername();
+    String getMarketplaceUsername();
 
-	String getMarketplaceToken();
+    String getMarketplaceToken();
 
-	Optional<AddonVersionStatus> getVersionStatus();
+    Optional<AddonVersionStatus> getVersionStatus();
 
-	Optional<PaymentModel> getPaymentModel();
+    Optional<PaymentModel> getPaymentModel();
 
-	String getVersionArtifactPath();
+    String getVersionArtifactPath();
 
-	boolean dryRun();
+    boolean dryRun();
 
     Optional<String> getReleaseNotesPath();
 
-	Optional<URI> getJiraBaseUrl();
+    Optional<URI> getJiraBaseUrl();
 
-	String getJiraUsername();
+    String getJiraUsername();
 
-	String getJiraToken();
+    String getJiraToken();
 
-	String getJiraProjectKey();
+    String getJiraProjectKey();
 
-	Optional<String> getJiraVersionFormat();
+    Optional<String> getJiraVersionFormat();
 
-	Optional<String> getAdditionalJQL();
+    Optional<String> getAdditionalJQL();
 
-	boolean useIssueSecurityFilter();
+    boolean useIssueSecurityFilter();
 }

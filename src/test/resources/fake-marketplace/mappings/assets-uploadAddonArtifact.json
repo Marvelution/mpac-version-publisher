@@ -1,21 +1,21 @@
 {
-	"request": {
-		"method": "POST",
-		"urlPath": "/rest/2/assets/artifact",
-		"queryParameters": {
-			"file": {
-				"matches": "^(.*).[obr|jar]$"
-			}
-		}
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "assets-uploadAddonArtifact.json",
-		"transformers": [
-			"response-template"
-		],
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "method": "POST",
+    "urlPath": "/rest/2/assets/artifact",
+    "queryParameters": {
+      "file": {
+        "matches": "^(.*).[obr|jar]$"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "assets-uploadAddonArtifact.json",
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

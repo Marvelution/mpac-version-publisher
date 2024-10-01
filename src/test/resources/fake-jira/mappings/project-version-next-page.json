@@ -1,24 +1,24 @@
 {
-	"request": {
-		"urlPathPattern": "/rest/api/2/project/TP/version",
-		"method": "GET",
-		"queryParameters":{
-			"startAt": {
-				"equalTo": "50"
-			},
-			"maxResults": {
-				"equalTo": "50"
-			}
-		}
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "project-version-next-page.json",
-		"transformers": [
-			"response-template"
-		],
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "urlPathPattern": "/rest/api/2/project/TP/version",
+    "method": "GET",
+    "queryParameters": {
+      "startAt": {
+        "equalTo": "50"
+      },
+      "maxResults": {
+        "equalTo": "50"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "project-version-next-page.json",
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

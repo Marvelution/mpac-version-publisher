@@ -1,36 +1,52 @@
 package org.marvelution.buildsupport;
 
-import javax.annotation.*;
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
+import java.io.ByteArrayInputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.*;
+import java.util.Optional;
+import java.util.stream.Stream;
+import javax.annotation.Nullable;
 
-import org.marvelution.buildsupport.configuration.*;
-import org.marvelution.buildsupport.helper.*;
-import org.marvelution.buildsupport.model.*;
-import org.marvelution.testing.*;
-import org.marvelution.testing.wiremock.*;
+import org.marvelution.buildsupport.configuration.PublisherConfiguration;
+import org.marvelution.buildsupport.helper.FakeJiraOptions;
+import org.marvelution.buildsupport.helper.FakeMarketplaceOptions;
+import org.marvelution.buildsupport.model.SearchRequest;
+import org.marvelution.testing.TestSupport;
+import org.marvelution.testing.wiremock.WireMockExtension;
+import org.marvelution.testing.wiremock.WireMockOptions;
+import org.marvelution.testing.wiremock.WireMockServer;
 
-import com.atlassian.marketplace.client.*;
-import com.atlassian.marketplace.client.impl.*;
-import com.atlassian.marketplace.client.model.*;
-import com.github.tomakehurst.wiremock.matching.*;
-import com.github.tomakehurst.wiremock.stubbing.*;
-import com.google.gson.*;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.*;
-import org.junit.jupiter.params.*;
-import org.junit.jupiter.params.provider.*;
+import com.atlassian.marketplace.client.MpacException;
+import com.atlassian.marketplace.client.impl.EntityEncoding;
+import com.atlassian.marketplace.client.impl.InternalModel;
+import com.atlassian.marketplace.client.impl.JsonEntityEncoding;
+import com.atlassian.marketplace.client.model.AddonVersionStatus;
+import com.atlassian.marketplace.client.model.Link;
+import com.atlassian.marketplace.client.model.PaymentModel;
+import com.github.tomakehurst.wiremock.matching.RequestPattern;
+import com.github.tomakehurst.wiremock.matching.RequestPatternBuilder;
+import com.github.tomakehurst.wiremock.stubbing.ServeEvent;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.http.RequestMethod.*;
-import static java.lang.String.*;
-import static org.assertj.core.api.Assertions.*;
-import static org.marvelution.buildsupport.helper.BasicAuthenticationRequestFilter.*;
-import static org.marvelution.buildsupport.helper.MarketplaceHelper.*;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static com.github.tomakehurst.wiremock.http.RequestMethod.POST;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.marvelution.buildsupport.helper.BasicAuthenticationRequestFilter.ADMIN;
+import static org.marvelution.buildsupport.helper.MarketplaceHelper.MARKETPLACE_AGREEMENT_URI;
 
 /**
  * Tests for {@link PublishToMarketplace}.
@@ -43,44 +59,33 @@ abstract class BaseTestPublishToMarketplace
 
     private PublishToMarketplace publishToMarketplace;
 
-    public static Stream<Arguments> resolveAddonArtifact()
-    {
-        Path cloneDir = getWorkDir();
-        return Stream.of(Arguments.of("/simple-app/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")),
-                Arguments.of("simple-app/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")),
-                Arguments.of("**/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")));
-    }
-
-    static Path getWorkDir()
-    {
-        try
-        {
-            return Paths.get(Optional.ofNullable(PublishToMarketplace.class.getClassLoader()
-                            .getResource("work-dir"))
-                    .orElseThrow()
-                    .toURI());
-        }
-        catch (URISyntaxException e)
-        {
-            throw new RuntimeException(e);
-        }
-    }
-
     abstract PublisherConfiguration createConfiguration(
-            @Nullable String marketplaceUrl,
-            @Nullable String marketplaceUser,
-            @Nullable String marketplaceToken,
+            @Nullable
+            String marketplaceUrl,
+            @Nullable
+            String marketplaceUser,
+            @Nullable
+            String marketplaceToken,
             String versionArtifact,
-            @Nullable String releaseNotesPath,
-            @Nullable AddonVersionStatus versionStatus,
-            @Nullable PaymentModel paymentModel,
-            @Nullable String jiraUrl,
-            @Nullable String jiraUser,
-            @Nullable String jiraToken,
-            @Nullable String project,
-            @Nullable String versionFormat,
+            @Nullable
+            String releaseNotesPath,
+            @Nullable
+            AddonVersionStatus versionStatus,
+            @Nullable
+            PaymentModel paymentModel,
+            @Nullable
+            String jiraUrl,
+            @Nullable
+            String jiraUser,
+            @Nullable
+            String jiraToken,
+            @Nullable
+            String project,
+            @Nullable
+            String versionFormat,
             boolean useIssueSecurity,
-            @Nullable String additionalJql,
+            @Nullable
+            String additionalJql,
             Path workDir);
 
     void setUpPublisher(String versionArtifact)
@@ -163,6 +168,29 @@ abstract class BaseTestPublishToMarketplace
 
         assertThatThrownBy(publishToMarketplace::resolveAddonArtifact).hasMessage("Unable to locate a single file using **/*.jar")
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    public static Stream<Arguments> resolveAddonArtifact()
+    {
+        Path cloneDir = getWorkDir();
+        return Stream.of(Arguments.of("/simple-app/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")),
+                Arguments.of("simple-app/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")),
+                Arguments.of("**/simple-app-1.0.0.jar", cloneDir.resolve("simple-app/simple-app-1.0.0.jar")));
+    }
+
+    static Path getWorkDir()
+    {
+        try
+        {
+            return Paths.get(Optional.ofNullable(PublishToMarketplace.class.getClassLoader()
+                            .getResource("work-dir"))
+                    .orElseThrow()
+                    .toURI());
+        }
+        catch (URISyntaxException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 
     @Nested
@@ -257,10 +285,10 @@ abstract class BaseTestPublishToMarketplace
                     .getAsString()).isEqualTo("");
         }
 
-		@Test
-		void testPublishVersionFullConfiguration()
-				throws Exception
-		{
+        @Test
+        void testPublishVersionFullConfiguration()
+                throws Exception
+        {
             setUpPublisher(marketplace.baseUrl(),
                     ADMIN,
                     ADMIN,
@@ -276,21 +304,21 @@ abstract class BaseTestPublishToMarketplace
                     true,
                     "category = Open-Source");
 
-			publishToMarketplace.run();
+            publishToMarketplace.run();
 
-			RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(POST, urlPathEqualTo("/rest/api/latest/search"))
-					.build();
-			ServeEvent serveEvent = getServeEvent(jira, requestPattern);
+            RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(POST, urlPathEqualTo("/rest/api/latest/search"))
+                    .build();
+            ServeEvent serveEvent = getServeEvent(jira, requestPattern);
             SearchRequest searchRequest = encoding.decode(new ByteArrayInputStream(serveEvent.getRequest()
                     .getBody()), SearchRequest.class);
-			assertThat(searchRequest.getJql()).isEqualTo(
-					"project = 'TP' AND fixVersion = 'server-1.0.0' AND statusCategory = Done AND level is EMPTY AND category = Open-Source ORDER BY priority DESC, issuekey ASC");
-			assertThat(searchRequest.getFields()).containsOnly("summary", "issuetype");
-			assertThat(searchRequest.getStartAt()).isEqualTo(0);
-			assertThat(searchRequest.getMaxResults()).isEqualTo(10);
+            assertThat(searchRequest.getJql()).isEqualTo(
+                    "project = 'TP' AND fixVersion = 'server-1.0.0' AND statusCategory = Done AND level is EMPTY AND category = Open-Source ORDER BY priority DESC, issuekey ASC");
+            assertThat(searchRequest.getFields()).containsOnly("summary", "issuetype");
+            assertThat(searchRequest.getStartAt()).isEqualTo(0);
+            assertThat(searchRequest.getMaxResults()).isEqualTo(10);
 
-			Link link = assertArtifactUploaded("simple-app-1.0.0.obr");
-			JsonObject json = assertNewVersionPosted(link);
+            Link link = assertArtifactUploaded("simple-app-1.0.0.obr");
+            JsonObject json = assertNewVersionPosted(link);
             assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PRIVATE.getKey());
             assertThat(json.getAsJsonPrimitive("paymentModel")
@@ -302,22 +330,22 @@ abstract class BaseTestPublishToMarketplace
                     .getAsJsonPrimitive("releaseNotes")
                     .getAsString()).contains(format("<li><a href=\"%s/browse/TP-624\">TP-624</a> Get work done (Story)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-610\">TP-610</a> Get more work done (Story)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-600\">TP-600</a> Yet more work to do (Story)</li>", jira.baseUrl()))
+                    .contains(format("<li><a href=\"%s/browse/TP-610\">TP-610</a> Get more work done (Story)</li>", jira.baseUrl()))
+                    .contains(format("<li><a href=\"%s/browse/TP-600\">TP-600</a> Yet more work to do (Story)</li>", jira.baseUrl()))
                     .contains(format(
                             "<li><a href=\"%s/browse/TP-597\">TP-597</a> Oops, should have thought a bit more (Technical Debt)</li>",
                             jira.baseUrl()))
                     .contains(format("<li><a href=\"%s/browse/TP-581\">TP-581</a> We need to fix this (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-579\">TP-579</a> New feature please (Story)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-562\">TP-562</a> Optimize this release note (Technical Debt)</li>",
+                    .contains(format("<li><a href=\"%s/browse/TP-579\">TP-579</a> New feature please (Story)</li>", jira.baseUrl()))
+                    .contains(format("<li><a href=\"%s/browse/TP-562\">TP-562</a> Optimize this release note (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-558\">TP-558</a> Cleanup in aisle three (Technical Debt)</li>",
+                    .contains(format("<li><a href=\"%s/browse/TP-558\">TP-558</a> Cleanup in aisle three (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-549\">TP-549</a> Almost complete (Technical Debt)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-547\">TP-547</a> Release initial version (Story)</li>", jira.baseUrl()))
-					.contains("Showing 10 of ", "37 issues", format("%s/issues?jql=", jira.baseUrl()));
-		}
+                    .contains(format("<li><a href=\"%s/browse/TP-549\">TP-549</a> Almost complete (Technical Debt)</li>", jira.baseUrl()))
+                    .contains(format("<li><a href=\"%s/browse/TP-547\">TP-547</a> Release initial version (Story)</li>", jira.baseUrl()))
+                    .contains("Showing 10 of ", "37 issues", format("%s/issues?jql=", jira.baseUrl()));
+        }
 
         @Test
         void testPublishVersionReleaseNotesPathConfiguration()

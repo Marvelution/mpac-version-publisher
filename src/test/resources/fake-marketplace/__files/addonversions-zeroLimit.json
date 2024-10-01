@@ -1,31 +1,31 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions?limit=0"
-		},
-		"alternate": {
-			"href": "/apps/1211376/simple-app/version-history",
-			"type": "text/html"
-		},
-		"query": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions{?afterVersion,application,applicationBuild,cost,hosting,includePrivate,offset,limit}",
-			"templated": true
-		},
-		"byBuild": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/{pluginBuildNumber}",
-			"templated": true
-		},
-		"byName": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/name/{name}{?hosting}",
-			"templated": true
-		},
-		"latest": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/latest{?afterVersion,application,applicationBuild,cost,hosting,includePrivate}",
-			"templated": true
-		}
-	},
-	"_embedded": {
-		"versions": []
-	},
-	"count": 108
+  "_links": {
+    "self": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions?limit=0"
+    },
+    "alternate": {
+      "href": "/apps/1211376/simple-app/version-history",
+      "type": "text/html"
+    },
+    "query": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions{?afterVersion,application,applicationBuild,cost,hosting,includePrivate,offset,limit}",
+      "templated": true
+    },
+    "byBuild": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/{pluginBuildNumber}",
+      "templated": true
+    },
+    "byName": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/name/{name}{?hosting}",
+      "templated": true
+    },
+    "latest": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/latest{?afterVersion,application,applicationBuild,cost,hosting,includePrivate}",
+      "templated": true
+    }
+  },
+  "_embedded": {
+    "versions": []
+  },
+  "count": 108
 }

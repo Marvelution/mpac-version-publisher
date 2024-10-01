@@ -1,82 +1,82 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/applications/jira"
-		},
-		"logo": {
-			"href": "/rest/2/assets/images%2F0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png"
-		},
-		"versions": {
-			"href": "/rest/2/applications/jira/versions{?afterBuildNumber,offset,limit}",
-			"templated": true
-		},
-		"latestVersion": {
-			"href": "/rest/2/applications/jira/versions/latest"
-		},
-		"versionByBuild": {
-			"href": "/rest/2/applications/jira/versions/build/{applicationBuildNumber}",
-			"templated": true
-		},
-		"versionByName": {
-			"href": "/rest/2/applications/jira/versions/name/{name}",
-			"templated": true
-		},
-		"addons": {
-			"href": "/rest/2/addons?application=jira"
-		},
-		"addonCategories": {
-			"href": "/rest/2/addonCategories/app/jira"
-		}
-	},
-	"_embedded": {
-		"logo": {
-			"_links": {
-				"self": {
-					"href": "/rest/2/assets/images%2F0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png"
-				},
-				"image": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/715a48ad-fc16-4312-b7e2-1587d577c1e7.png",
-					"type": "image/png"
-				},
-				"unscaled": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png",
-					"type": "image/png"
-				},
-				"highRes": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/bfe1df9f-d573-422e-a915-3491a1a38684.png",
-					"type": "image/png"
-				}
-			}
-		}
-	},
-	"name": "Jira",
-	"key": "jira",
-	"keyAliases": [],
-	"introduction": "Nice one! Your team went JIRA. You've got a best-in-class issue tracker, but that's only the beginning. The Marketplace is brimming with apps for time-tracking, agile project management, test management, and integration with your other systems. Add-ons are ready to help make JIRA the best project tracker you've ever used.",
-	"status": "published",
-	"hostingSupport": {
-		"cloud": {
-			"enabled": true,
-			"customHamsKey": "jira-core.ondemand"
-		},
-		"server": {
-			"enabled": true,
-			"customHamsKey": "jira-core"
-		},
-		"dataCenter": {
-			"enabled": true,
-			"customHamsKey": "jira-data-center"
-		}
-	},
-	"atlassianConnectSupport": {
-		"cloud": true,
-		"server": false,
-		"dataCenter": false
-	},
-	"compatibilityMode": "micro",
-	"details": {
-		"description": "Jira",
-		"learnMore": "https://www.atlassian.com/software/jira",
-		"downloadPage": "https://www.atlassian.com/software/jira/core/download"
-	}
+  "_links": {
+    "self": {
+      "href": "/rest/2/applications/jira"
+    },
+    "logo": {
+      "href": "/rest/2/assets/images%2F0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png"
+    },
+    "versions": {
+      "href": "/rest/2/applications/jira/versions{?afterBuildNumber,offset,limit}",
+      "templated": true
+    },
+    "latestVersion": {
+      "href": "/rest/2/applications/jira/versions/latest"
+    },
+    "versionByBuild": {
+      "href": "/rest/2/applications/jira/versions/build/{applicationBuildNumber}",
+      "templated": true
+    },
+    "versionByName": {
+      "href": "/rest/2/applications/jira/versions/name/{name}",
+      "templated": true
+    },
+    "addons": {
+      "href": "/rest/2/addons?application=jira"
+    },
+    "addonCategories": {
+      "href": "/rest/2/addonCategories/app/jira"
+    }
+  },
+  "_embedded": {
+    "logo": {
+      "_links": {
+        "self": {
+          "href": "/rest/2/assets/images%2F0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png"
+        },
+        "image": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/715a48ad-fc16-4312-b7e2-1587d577c1e7.png",
+          "type": "image/png"
+        },
+        "unscaled": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/0ad9da14-b9f0-462c-89aa-fe7ddc1e3a2d.png",
+          "type": "image/png"
+        },
+        "highRes": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/bfe1df9f-d573-422e-a915-3491a1a38684.png",
+          "type": "image/png"
+        }
+      }
+    }
+  },
+  "name": "Jira",
+  "key": "jira",
+  "keyAliases": [],
+  "introduction": "Nice one! Your team went JIRA. You've got a best-in-class issue tracker, but that's only the beginning. The Marketplace is brimming with apps for time-tracking, agile project management, test management, and integration with your other systems. Add-ons are ready to help make JIRA the best project tracker you've ever used.",
+  "status": "published",
+  "hostingSupport": {
+    "cloud": {
+      "enabled": true,
+      "customHamsKey": "jira-core.ondemand"
+    },
+    "server": {
+      "enabled": true,
+      "customHamsKey": "jira-core"
+    },
+    "dataCenter": {
+      "enabled": true,
+      "customHamsKey": "jira-data-center"
+    }
+  },
+  "atlassianConnectSupport": {
+    "cloud": true,
+    "server": false,
+    "dataCenter": false
+  },
+  "compatibilityMode": "micro",
+  "details": {
+    "description": "Jira",
+    "learnMore": "https://www.atlassian.com/software/jira",
+    "downloadPage": "https://www.atlassian.com/software/jira/core/download"
+  }
 }

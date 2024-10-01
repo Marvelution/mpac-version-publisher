@@ -1,222 +1,222 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app"
-		},
-		"alternate": {
-			"href": "/apps/1211376/simple-app?tab=overview",
-			"type": "text/html"
-		},
-		"categories": [
-			{
-				"href": "/rest/2/addonCategories/18"
-			},
-			{
-				"href": "/rest/2/addonCategories/54"
-			},
-			{
-				"href": "/rest/2/addonCategories/4"
-			}
-		],
-		"logo": {
-			"href": "/rest/2/assets/images%2Fc3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png"
-		},
-		"pricing": [
-			{
-				"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/pricing/{cloudOrServer}/{liveOrPending}",
-				"templated": true
-			},
-			{
-				"href": "/apps/1211376/simple-app?tab=pricing",
-				"type": "text/html"
-			}
-		],
-		"support": {
-			"href": "/apps/1211376/simple-app?tab=support",
-			"type": "text/html"
-		},
-		"tokens": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/tokens"
-		},
-		"distribution": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/distribution"
-		},
-		"recommendations": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/recommendations{?application,applicationBuild,category*,cost,filter,forThisUser,hosting*,includeHidden,includePrivate,marketingLabel*,text,withVersion,storesPersonalData,offset,limit}",
-			"templated": true
-		},
-		"reviews": [
-			{
-				"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/reviews{?sort,offset,limit}",
-				"templated": true
-			},
-			{
-				"href": "/apps/1211376/simple-app?tab=reviews",
-				"type": "text/html"
-			}
-		],
-		"vendor": {
-			"href": "/rest/2/vendors/11178"
-		},
-		"versions": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions"
-		},
-		"watch": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/watch"
-		},
-		"approval": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/approval"
-		},
-		"edit": {
-			"href": "/manage/apps/1211376"
-		},
-		"feedbacks": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/feedbacks{?type,includeAnonymous,reason,offset,limit}",
-			"templated": true
-		}
-	},
-	"_embedded": {
-		"categories": [
-			{
-				"_links": {
-					"self": {
-						"href": "/rest/2/addonCategories/4"
-					}
-				},
-				"name": "Integrations"
-			},
-			{
-				"_links": {
-					"self": {
-						"href": "/rest/2/addonCategories/18"
-					}
-				},
-				"name": "Build management"
-			},
-			{
-				"_links": {
-					"self": {
-						"href": "/rest/2/addonCategories/54"
-					}
-				},
-				"name": "Continuous integration"
-			}
-		],
-		"logo": {
-			"_links": {
-				"self": {
-					"href": "/rest/2/assets/images%2Fc3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png"
-				},
-				"image": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/71654181-f8c6-4d8e-8d74-90b71f4c51d1.png",
-					"type": "image/png"
-				},
-				"unscaled": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/c3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png",
-					"type": "image/png"
-				},
-				"highRes": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/74244800-5136-4471-9a44-603a81f6262e.png",
-					"type": "image/png"
-				},
-				"smallImage": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/fd6c9092-98cf-434f-a97b-9de360ab7b44.png",
-					"type": "image/png"
-				},
-				"smallHighResImage": {
-					"href": "https://marketplace-cdn.atlassian.com/files/images/01da303d-321f-4580-b69e-d68d468f1366.png",
-					"type": "image/png"
-				}
-			}
-		},
-		"distribution": {
-			"bundled": false,
-			"bundledCloud": false,
-			"downloads": 58499,
-			"totalInstalls": 3844,
-			"totalUsers": 1939873
-		},
-		"reviews": {
-			"averageStars": 2.828125,
-			"count": 64
-		},
-		"vendor": {
-			"_links": {
-				"self": {
-					"href": "/rest/2/vendors/11178"
-				},
-				"alternate": {
-					"href": "/vendors/11178/marvelution-b-v",
-					"type": "text/html"
-				},
-				"edit": {
-					"href": "/manage/vendors/11178",
-					"type": "text/html"
-				},
-				"logo": {
-					"href": "/rest/2/assets/images%2Fd33a0d58-6a57-40ac-8d44-5f052a33e124.png"
-				}
-			},
-			"_embedded": {
-				"logo": {
-					"_links": {
-						"self": {
-							"href": "/rest/2/assets/images%2Fd33a0d58-6a57-40ac-8d44-5f052a33e124.png"
-						},
-						"image": {
-							"href": "https://marketplace-cdn.atlassian.com/files/images/b6ac6d43-a960-4e88-bcf2-a73ad2d72206.png",
-							"type": "image/png"
-						},
-						"unscaled": {
-							"href": "https://marketplace-cdn.atlassian.com/files/images/d33a0d58-6a57-40ac-8d44-5f052a33e124.png",
-							"type": "image/png"
-						},
-						"highRes": {
-							"href": "https://marketplace-cdn.atlassian.com/files/images/c36c2809-c68d-48c0-af03-fe91b9a32bcb.png",
-							"type": "image/png"
-						},
-						"smallImage": {
-							"href": "https://marketplace-cdn.atlassian.com/files/images/47516369-e848-41be-911e-50056db1917b.png",
-							"type": "image/png"
-						},
-						"smallHighResImage": {
-							"href": "https://marketplace-cdn.atlassian.com/files/images/e2975782-2f41-41b8-8759-4dec01bd43a1.png",
-							"type": "image/png"
-						}
-					}
-				}
-			},
-			"name": "Marvelution B.V.",
-			"programs": {
-				"topVendor": {
-					"status": "not-requested"
-				}
-			}
-		}
-	},
-	"name": "BuildSupport Test Simple App",
-	"key": "org.marvelution.buildsupport.test.simple-app",
-	"status": "private",
-	"summary": "A simple test app",
-	"tagLine": "Testing Testing Testing",
-	"vendorLinks": {
-		"issueTracker": "https://bitbucket.org/marvelution/publish-marketplace-version/",
-		"supportTicketSystem": "https://support.marvelution.com/servicedesk/customer/portal/3"
-	},
-	"legacy": {
-		"vendorLinks": {
-			"source": "https://bitbucket.org/marvelution/publish-marketplace-version/",
-			"builds": "https://bitbucket.org/marvelution/publish-marketplace-version/"
-		}
-	},
-	"marketing": {
-		"marketingLabels": [
-			"DevOps",
-			"DevOps-Build"
-		]
-	},
-	"lastModified": "2019-04-12T15:09:55.032Z",
-	"communityEnabled": true,
-	"dataCenterReviewIssueKey": "DCHELP-1234",
-	"storesPersonalData": false
+  "_links": {
+    "self": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app"
+    },
+    "alternate": {
+      "href": "/apps/1211376/simple-app?tab=overview",
+      "type": "text/html"
+    },
+    "categories": [
+      {
+        "href": "/rest/2/addonCategories/18"
+      },
+      {
+        "href": "/rest/2/addonCategories/54"
+      },
+      {
+        "href": "/rest/2/addonCategories/4"
+      }
+    ],
+    "logo": {
+      "href": "/rest/2/assets/images%2Fc3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png"
+    },
+    "pricing": [
+      {
+        "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/pricing/{cloudOrServer}/{liveOrPending}",
+        "templated": true
+      },
+      {
+        "href": "/apps/1211376/simple-app?tab=pricing",
+        "type": "text/html"
+      }
+    ],
+    "support": {
+      "href": "/apps/1211376/simple-app?tab=support",
+      "type": "text/html"
+    },
+    "tokens": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/tokens"
+    },
+    "distribution": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/distribution"
+    },
+    "recommendations": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/recommendations{?application,applicationBuild,category*,cost,filter,forThisUser,hosting*,includeHidden,includePrivate,marketingLabel*,text,withVersion,storesPersonalData,offset,limit}",
+      "templated": true
+    },
+    "reviews": [
+      {
+        "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/reviews{?sort,offset,limit}",
+        "templated": true
+      },
+      {
+        "href": "/apps/1211376/simple-app?tab=reviews",
+        "type": "text/html"
+      }
+    ],
+    "vendor": {
+      "href": "/rest/2/vendors/11178"
+    },
+    "versions": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions"
+    },
+    "watch": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/watch"
+    },
+    "approval": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/approval"
+    },
+    "edit": {
+      "href": "/manage/apps/1211376"
+    },
+    "feedbacks": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/feedbacks{?type,includeAnonymous,reason,offset,limit}",
+      "templated": true
+    }
+  },
+  "_embedded": {
+    "categories": [
+      {
+        "_links": {
+          "self": {
+            "href": "/rest/2/addonCategories/4"
+          }
+        },
+        "name": "Integrations"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/rest/2/addonCategories/18"
+          }
+        },
+        "name": "Build management"
+      },
+      {
+        "_links": {
+          "self": {
+            "href": "/rest/2/addonCategories/54"
+          }
+        },
+        "name": "Continuous integration"
+      }
+    ],
+    "logo": {
+      "_links": {
+        "self": {
+          "href": "/rest/2/assets/images%2Fc3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png"
+        },
+        "image": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/71654181-f8c6-4d8e-8d74-90b71f4c51d1.png",
+          "type": "image/png"
+        },
+        "unscaled": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/c3d3b5f4-d5f9-4f22-8ffc-58cedc7e9348.png",
+          "type": "image/png"
+        },
+        "highRes": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/74244800-5136-4471-9a44-603a81f6262e.png",
+          "type": "image/png"
+        },
+        "smallImage": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/fd6c9092-98cf-434f-a97b-9de360ab7b44.png",
+          "type": "image/png"
+        },
+        "smallHighResImage": {
+          "href": "https://marketplace-cdn.atlassian.com/files/images/01da303d-321f-4580-b69e-d68d468f1366.png",
+          "type": "image/png"
+        }
+      }
+    },
+    "distribution": {
+      "bundled": false,
+      "bundledCloud": false,
+      "downloads": 58499,
+      "totalInstalls": 3844,
+      "totalUsers": 1939873
+    },
+    "reviews": {
+      "averageStars": 2.828125,
+      "count": 64
+    },
+    "vendor": {
+      "_links": {
+        "self": {
+          "href": "/rest/2/vendors/11178"
+        },
+        "alternate": {
+          "href": "/vendors/11178/marvelution-b-v",
+          "type": "text/html"
+        },
+        "edit": {
+          "href": "/manage/vendors/11178",
+          "type": "text/html"
+        },
+        "logo": {
+          "href": "/rest/2/assets/images%2Fd33a0d58-6a57-40ac-8d44-5f052a33e124.png"
+        }
+      },
+      "_embedded": {
+        "logo": {
+          "_links": {
+            "self": {
+              "href": "/rest/2/assets/images%2Fd33a0d58-6a57-40ac-8d44-5f052a33e124.png"
+            },
+            "image": {
+              "href": "https://marketplace-cdn.atlassian.com/files/images/b6ac6d43-a960-4e88-bcf2-a73ad2d72206.png",
+              "type": "image/png"
+            },
+            "unscaled": {
+              "href": "https://marketplace-cdn.atlassian.com/files/images/d33a0d58-6a57-40ac-8d44-5f052a33e124.png",
+              "type": "image/png"
+            },
+            "highRes": {
+              "href": "https://marketplace-cdn.atlassian.com/files/images/c36c2809-c68d-48c0-af03-fe91b9a32bcb.png",
+              "type": "image/png"
+            },
+            "smallImage": {
+              "href": "https://marketplace-cdn.atlassian.com/files/images/47516369-e848-41be-911e-50056db1917b.png",
+              "type": "image/png"
+            },
+            "smallHighResImage": {
+              "href": "https://marketplace-cdn.atlassian.com/files/images/e2975782-2f41-41b8-8759-4dec01bd43a1.png",
+              "type": "image/png"
+            }
+          }
+        }
+      },
+      "name": "Marvelution B.V.",
+      "programs": {
+        "topVendor": {
+          "status": "not-requested"
+        }
+      }
+    }
+  },
+  "name": "BuildSupport Test Simple App",
+  "key": "org.marvelution.buildsupport.test.simple-app",
+  "status": "private",
+  "summary": "A simple test app",
+  "tagLine": "Testing Testing Testing",
+  "vendorLinks": {
+    "issueTracker": "https://bitbucket.org/marvelution/publish-marketplace-version/",
+    "supportTicketSystem": "https://support.marvelution.com/servicedesk/customer/portal/3"
+  },
+  "legacy": {
+    "vendorLinks": {
+      "source": "https://bitbucket.org/marvelution/publish-marketplace-version/",
+      "builds": "https://bitbucket.org/marvelution/publish-marketplace-version/"
+    }
+  },
+  "marketing": {
+    "marketingLabels": [
+      "DevOps",
+      "DevOps-Build"
+    ]
+  },
+  "lastModified": "2019-04-12T15:09:55.032Z",
+  "communityEnabled": true,
+  "dataCenterReviewIssueKey": "DCHELP-1234",
+  "storesPersonalData": false
 }

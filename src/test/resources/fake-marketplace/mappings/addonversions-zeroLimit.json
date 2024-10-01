@@ -1,13 +1,13 @@
 {
-	"request": {
-		"method": "GET",
-		"url": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions?limit=0"
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "addonversions-zeroLimit.json",
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "method": "GET",
+    "url": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions?limit=0"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "addonversions-zeroLimit.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

@@ -1,9 +1,9 @@
 package org.marvelution.buildsupport.logging;
 
-import ch.qos.logback.classic.pattern.*;
-import ch.qos.logback.classic.spi.*;
+import ch.qos.logback.classic.pattern.ThrowableProxyConverter;
+import ch.qos.logback.classic.spi.IThrowableProxy;
 
-import static ch.qos.logback.core.CoreConstants.*;
+import static ch.qos.logback.core.CoreConstants.LINE_SEPARATOR;
 
 /**
  * This custom {@link ThrowableProxyConverter} is used to add a new line after the throwable.
@@ -11,12 +11,12 @@ import static ch.qos.logback.core.CoreConstants.*;
  * @author Mark Rekveld
  */
 public class PublisherThrowableProxyConverter
-		extends ThrowableProxyConverter
+        extends ThrowableProxyConverter
 {
 
-	@Override
-	protected String throwableProxyToString(IThrowableProxy tp)
-	{
-		return super.throwableProxyToString(tp) + LINE_SEPARATOR;
-	}
+    @Override
+    protected String throwableProxyToString(IThrowableProxy tp)
+    {
+        return super.throwableProxyToString(tp) + LINE_SEPARATOR;
+    }
 }

@@ -1,16 +1,16 @@
 {
-	"request": {
-		"urlPathPattern": "/rest/api/latest/search",
-		"method": "POST"
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "issue-search.json",
-		"transformers": [
-			"response-template"
-		],
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "urlPathPattern": "/rest/api/latest/search",
+    "method": "POST"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "issue-search.json",
+    "transformers": [
+      "response-template"
+    ],
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

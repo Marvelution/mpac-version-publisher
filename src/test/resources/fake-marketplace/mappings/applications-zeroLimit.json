@@ -1,13 +1,13 @@
 {
-	"request": {
-		"method": "GET",
-		"url": "/rest/2/applications?limit=0"
-	},
-	"response": {
-		"status": 200,
-		"bodyFileName": "applications-zeroLimit.json",
-		"headers": {
-			"Content-Type": "application/json"
-		}
-	}
+  "request": {
+    "method": "GET",
+    "url": "/rest/2/applications?limit=0"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "applications-zeroLimit.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
 }

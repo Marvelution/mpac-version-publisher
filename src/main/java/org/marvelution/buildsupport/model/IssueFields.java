@@ -6,26 +6,26 @@ package org.marvelution.buildsupport.model;
 public class IssueFields
 {
 
-	private String summary;
-	private IssueType issuetype;
+    private String summary;
+    private IssueType issuetype;
 
-	public String getSummary()
-	{
-		return summary;
-	}
+    public String getSummary()
+    {
+        return summary;
+    }
 
-	public void setSummary(String summary)
-	{
-		this.summary = summary;
-	}
+    public void setSummary(String summary)
+    {
+        this.summary = summary;
+    }
 
-	public IssueType getIssuetype()
-	{
-		return issuetype;
-	}
+    public IssueType getIssuetype()
+    {
+        return issuetype;
+    }
 
-	public void setIssuetype(IssueType issuetype)
-	{
-		this.issuetype = issuetype;
-	}
+    public void setIssuetype(IssueType issuetype)
+    {
+        this.issuetype = issuetype;
+    }
 }

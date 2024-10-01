@@ -7,7 +7,7 @@ Otherwise, [EnvironmentPublisherConfiguration](#EnvironmentPublisherConfiguratio
 
 ## CommandLinePublisherConfiguration
 
-Configuring the tool using the `org.marvelution.buildsupport.configuration.CommandLinePublisherConfiguration` takes the following 
+Configuring the tool using the `org.marvelution.buildsupport.configuration.CommandLinePublisherConfiguration` takes the following
 arguments:
 
 ```
@@ -39,7 +39,7 @@ usage: jar [-D] [-dr] [-h] [-isf] [-j <arg>] [-jpk <arg>] [-jql <arg>]
 
 ## EnvironmentPublisherConfiguration
 
-Configuring the tool via the `org.marvelution.buildsupport.configuration.EnvironmentPublisherConfiguration` takes the following 
+Configuring the tool via the `org.marvelution.buildsupport.configuration.EnvironmentPublisherConfiguration` takes the following
 environment variables:
 
 | Variable                    | Usage                                                                                                                                                                           |

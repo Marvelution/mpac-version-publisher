@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<appender name="FakeJira" class="ch.qos.logback.core.FileAppender">
-		<file>${user.dir}/target/surefire-reports/fake-jira.log</file>
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-			<charset>utf8</charset>
-		</encoder>
-	</appender>
-	<appender name="FakeMarketplace" class="ch.qos.logback.core.FileAppender">
-		<file>${user.dir}/target/surefire-reports/fake-marketplace.log</file>
-		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-			<charset>utf8</charset>
-		</encoder>
-	</appender>
+    <appender name="FakeJira" class="ch.qos.logback.core.FileAppender">
+        <file>${user.dir}/target/surefire-reports/fake-jira.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <appender name="FakeMarketplace" class="ch.qos.logback.core.FileAppender">
+        <file>${user.dir}/target/surefire-reports/fake-marketplace.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
 
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<pattern>%-5level %msg %ex{full}%n</pattern>
-			<charset>utf8</charset>
-		</encoder>
-	</appender>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5level %msg %ex{full}%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
 
-	<logger name="FakeJira" level="DEBUG" additivity="false">
-		<appender-ref ref="FakeJira" />
-	</logger>
-	<logger name="FakeMarketplace" level="DEBUG" additivity="false">
-		<appender-ref ref="FakeMarketplace" />
-	</logger>
+    <logger name="FakeJira" level="DEBUG" additivity="false">
+        <appender-ref ref="FakeJira"/>
+    </logger>
+    <logger name="FakeMarketplace" level="DEBUG" additivity="false">
+        <appender-ref ref="FakeMarketplace"/>
+    </logger>
 
-	<logger name="org.marvelution.buildsupport" level="DEBUG" />
-	<logger name="com.atlassian" level="DEBUG" />
-	<root level="INFO">
-		<appender-ref ref="CONSOLE" />
-	</root>
+    <logger name="org.marvelution.buildsupport" level="DEBUG"/>
+    <logger name="com.atlassian" level="DEBUG"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>

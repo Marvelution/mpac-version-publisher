@@ -1,6 +1,9 @@
 package org.marvelution.buildsupport.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringJoiner;
 
 /**
  * @author Mark Rekveld
@@ -8,32 +11,34 @@ import java.util.*;
 public class ErrorMessages
 {
 
-	private List<String> errorMessages;
-	private Map<String, String> errors = new HashMap<>();
+    private List<String> errorMessages;
+    private Map<String, String> errors = new HashMap<>();
 
-	public List<String> getErrorMessages()
-	{
-		return errorMessages;
-	}
+    public List<String> getErrorMessages()
+    {
+        return errorMessages;
+    }
 
-	public void setErrorMessages(List<String> errorMessages)
-	{
-		this.errorMessages = errorMessages;
-	}
+    public void setErrorMessages(List<String> errorMessages)
+    {
+        this.errorMessages = errorMessages;
+    }
 
-	public Map<String, String> getErrors()
-	{
-		return errors;
-	}
+    public Map<String, String> getErrors()
+    {
+        return errors;
+    }
 
-	public void setErrors(Map<String, String> errors)
-	{
-		this.errors = errors;
-	}
+    public void setErrors(Map<String, String> errors)
+    {
+        this.errors = errors;
+    }
 
-	@Override
-	public String toString()
-	{
-		return new StringJoiner(", ").add("messages: " + errorMessages).add("errors: " + errors).toString();
-	}
+    @Override
+    public String toString()
+    {
+        return new StringJoiner(", ").add("messages: " + errorMessages)
+                .add("errors: " + errors)
+                .toString();
+    }
 }

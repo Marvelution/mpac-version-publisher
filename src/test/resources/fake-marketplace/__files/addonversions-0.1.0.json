@@ -1,93 +1,93 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/1"
-		},
-		"alternate": {
-			"href": "/apps/1211376/simple-app/version-history#b1",
-			"type": "text/html"
-		},
-		"artifact": {
-			"href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2Fsimple-app-0.1.0.obr"
-		},
-		"functionalCategories": [],
-		"edit": {
-			"href": "/manage/apps/1211376/versions/1/details",
-			"type": "text/html"
-		},
-		"approval": {
-			"href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/1/approval"
-		},
-		"license": {
-			"href": "/rest/2/licenseTypes/commercial-free"
-		}
-	},
-	"_embedded": {
-		"artifact": {
-			"_links": {
-				"self": {
-					"href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2Fsimple-app-0.1.0.obr"
-				},
-				"binary": {
-					"href": "https://marketplace.atlassian.com/download/apps/1211376/version/1"
-				}
-			}
-		},
-		"functionalCategories": [],
-		"highlights": [],
-		"screenshots": [],
-		"license": {
-			"_links": {
-				"self": {
-					"href": "/rest/2/licenseTypes/commercial-free"
-				}
-			},
-			"key": "commercial-free",
-			"name": "Commercial - no charge"
-		}
-	},
-	"buildNumber": 1,
-	"name": "0.1.0",
-	"status": "private",
-	"paymentModel": "free",
-	"release": {
-		"date": "2017-09-28",
-		"releasedBy": "Mark Rekveld",
-		"beta": false,
-		"supported": true
-	},
-	"vendorLinks": {
-		"documentation": "https://bitbucket.org/marvelution/publish-marketplace-version/",
-		"license": "http://www.apache.org/licenses/LICENSE-2.0.html"
-	},
-	"compatibilities": [
-		{
-			"application": "jira",
-			"hosting": {
-				"server": {
-					"min": {
-						"build": 72002,
-						"version": "7.2.0"
-					},
-					"max": {
-						"build": 805002,
-						"version": "8.5.2"
-					}
-				}
-			}
-		}
-	],
-	"text": {
-		"releaseSummary": "Initial release"
-	},
-	"static": false,
-	"deployable": true,
-	"deployment": {
-		"server": true,
-		"cloud": false,
-		"connect": false,
-		"autoUpdateAllowed": false,
-		"permissions": [],
-		"dataCenter": false
-	}
+  "_links": {
+    "self": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/1"
+    },
+    "alternate": {
+      "href": "/apps/1211376/simple-app/version-history#b1",
+      "type": "text/html"
+    },
+    "artifact": {
+      "href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2Fsimple-app-0.1.0.obr"
+    },
+    "functionalCategories": [],
+    "edit": {
+      "href": "/manage/apps/1211376/versions/1/details",
+      "type": "text/html"
+    },
+    "approval": {
+      "href": "/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions/build/1/approval"
+    },
+    "license": {
+      "href": "/rest/2/licenseTypes/commercial-free"
+    }
+  },
+  "_embedded": {
+    "artifact": {
+      "_links": {
+        "self": {
+          "href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2Fsimple-app-0.1.0.obr"
+        },
+        "binary": {
+          "href": "https://marketplace.atlassian.com/download/apps/1211376/version/1"
+        }
+      }
+    },
+    "functionalCategories": [],
+    "highlights": [],
+    "screenshots": [],
+    "license": {
+      "_links": {
+        "self": {
+          "href": "/rest/2/licenseTypes/commercial-free"
+        }
+      },
+      "key": "commercial-free",
+      "name": "Commercial - no charge"
+    }
+  },
+  "buildNumber": 1,
+  "name": "0.1.0",
+  "status": "private",
+  "paymentModel": "free",
+  "release": {
+    "date": "2017-09-28",
+    "releasedBy": "Mark Rekveld",
+    "beta": false,
+    "supported": true
+  },
+  "vendorLinks": {
+    "documentation": "https://bitbucket.org/marvelution/publish-marketplace-version/",
+    "license": "http://www.apache.org/licenses/LICENSE-2.0.html"
+  },
+  "compatibilities": [
+    {
+      "application": "jira",
+      "hosting": {
+        "server": {
+          "min": {
+            "build": 72002,
+            "version": "7.2.0"
+          },
+          "max": {
+            "build": 805002,
+            "version": "8.5.2"
+          }
+        }
+      }
+    }
+  ],
+  "text": {
+    "releaseSummary": "Initial release"
+  },
+  "static": false,
+  "deployable": true,
+  "deployment": {
+    "server": true,
+    "cloud": false,
+    "connect": false,
+    "autoUpdateAllowed": false,
+    "permissions": [],
+    "dataCenter": false
+  }
 }

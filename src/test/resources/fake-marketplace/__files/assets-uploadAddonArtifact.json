@@ -1,7 +1,7 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2F{{request.query.file}}"
-		}
-	}
+  "_links": {
+    "self": {
+      "href": "/rest/2/assets/artifact%2Ffe9de34e-2759-4552-aa1b-5d208d3fed11%2F{{request.query.file}}"
+    }
+  }
 }

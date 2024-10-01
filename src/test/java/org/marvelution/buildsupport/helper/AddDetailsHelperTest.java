@@ -1,20 +1,23 @@
 package org.marvelution.buildsupport.helper;
 
-import java.io.*;
-import java.net.*;
-import java.nio.file.*;
-import java.util.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.Optional;
 
-import org.marvelution.buildsupport.model.*;
-import org.marvelution.testing.*;
+import org.marvelution.buildsupport.model.AppDetails;
+import org.marvelution.testing.TestSupport;
 
-import com.atlassian.plugin.marketing.bean.*;
-import org.assertj.core.api.*;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.params.*;
-import org.junit.jupiter.params.provider.*;
+import com.atlassian.plugin.marketing.bean.ProductCompatibility;
+import com.atlassian.plugin.marketing.bean.ProductEnum;
+import org.assertj.core.api.Condition;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * Tests for {@link AppDetailsHelper}.

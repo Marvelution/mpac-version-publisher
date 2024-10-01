@@ -1,9 +1,8 @@
 package org.marvelution.buildsupport.helper;
 
-import org.marvelution.testing.wiremock.*;
+import org.marvelution.testing.wiremock.WireMockServer;
 
-import com.github.tomakehurst.wiremock.core.*;
-import com.github.tomakehurst.wiremock.extension.responsetemplating.*;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 
 /**
  * {@link WireMockServer} options for a preconfigured fake Jira instance.
@@ -11,14 +10,14 @@ import com.github.tomakehurst.wiremock.extension.responsetemplating.*;
  * @author Mark Rekveld
  */
 public class FakeJiraOptions
-		extends WireMockConfiguration
+        extends WireMockConfiguration
 {
 
-	public FakeJiraOptions()
-	{
-		dynamicPort();
-		usingFilesUnderClasspath("fake-jira");
-		extensions(new BasicAuthenticationRequestFilter());
-		notifier(new LoggingNotifier("FakeJira"));
-	}
+    public FakeJiraOptions()
+    {
+        dynamicPort();
+        usingFilesUnderClasspath("fake-jira");
+        extensions(new BasicAuthenticationRequestFilter());
+        notifier(new LoggingNotifier("FakeJira"));
+    }
 }

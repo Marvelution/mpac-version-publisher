@@ -1,17 +1,17 @@
 {
-	"_links": {
-		"self": {
-			"href": "/rest/2/assets"
-		},
-		"artifact": {
-			"href": "/rest/2/assets/artifact"
-		},
-		"fetchArtifact": {
-			"href": "/rest/2/assets/artifact/fetch"
-		},
-		"imageByType": {
-			"href": "/rest/2/assets/image/{imageType}",
-			"templated": true
-		}
-	}
+  "_links": {
+    "self": {
+      "href": "/rest/2/assets"
+    },
+    "artifact": {
+      "href": "/rest/2/assets/artifact"
+    },
+    "fetchArtifact": {
+      "href": "/rest/2/assets/artifact/fetch"
+    },
+    "imageByType": {
+      "href": "/rest/2/assets/image/{imageType}",
+      "templated": true
+    }
+  }
 }
