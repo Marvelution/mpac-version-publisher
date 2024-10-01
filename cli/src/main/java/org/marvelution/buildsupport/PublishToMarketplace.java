@@ -57,7 +57,7 @@ public class PublishToMarketplace
 		{
 			URI addonArtifact = resolveAddonArtifact();
 			LOGGER.info("Resolved app artifact {}", addonArtifact);
-			AppDetails appDetails = parseAppArtifact(addonArtifact);
+			AppDetails appDetails = AppDetailsHelper.parseAppArtifact(addonArtifact);
 
 			Optional<Addon> addon = marketplace.getAddon(appDetails.getKey());
 			if (addon.isEmpty())
@@ -69,7 +69,7 @@ public class PublishToMarketplace
 			{
 				LOGGER.info("Processing app artifact to collect release details...");
 				ReleaseDetails releaseDetails = new ReleaseDetails(appDetails.getVersion()).setStatus(
-								configuration.getVersionStatus().orElse(PUBLIC))
+								configuration.getVersionStatus().orElse(AddonVersionStatus.PUBLIC))
 						.setPaymentModel(configuration.getPaymentModel().orElse(PaymentModel.FREE))
 						.setPublisher(addon.map(Addon::getVendor)
 								              .flatMap(Option::toOptional)

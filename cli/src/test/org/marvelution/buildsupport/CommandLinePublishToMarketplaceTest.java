@@ -1,10 +1,11 @@
-package org.marvelution.buildsupport;
+package test.org.marvelution.buildsupport;
 
 import java.nio.file.*;
 import java.util.*;
 import java.util.function.*;
 import javax.annotation.*;
 
+import org.marvelution.buildsupport.PublishToMarketplace;
 import org.marvelution.buildsupport.configuration.*;
 
 import com.atlassian.marketplace.client.model.*;

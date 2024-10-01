@@ -1,4 +1,4 @@
-package org.marvelution.buildsupport;
+package test.org.marvelution.buildsupport;
 
 import javax.annotation.*;
 import java.io.*;
@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.*;
 
+import org.marvelution.buildsupport.PublishToMarketplace;
 import org.marvelution.buildsupport.configuration.*;
-import org.marvelution.buildsupport.helper.*;
 import org.marvelution.buildsupport.model.*;
 import org.marvelution.testing.*;
 import org.marvelution.testing.wiremock.*;
@@ -27,7 +27,6 @@ import org.junit.jupiter.params.provider.*;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.http.RequestMethod.*;
-import static java.lang.String.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.marvelution.buildsupport.helper.BasicAuthenticationRequestFilter.*;
 import static org.marvelution.buildsupport.helper.MarketplaceHelper.*;
@@ -153,7 +152,7 @@ abstract class BaseTestPublishToMarketplace
         setUpPublisher(versionArtifact);
 
         URI resolvedVersionArtifact = publishToMarketplace.resolveAddonArtifact();
-        assertThat(resolvedVersionArtifact).isEqualTo(expectedPath.toUri());
+        Assertions.assertThat(resolvedVersionArtifact).isEqualTo(expectedPath.toUri());
     }
 
     @Test
@@ -161,7 +160,7 @@ abstract class BaseTestPublishToMarketplace
     {
         setUpPublisher("**/*.jar");
 
-        assertThatThrownBy(publishToMarketplace::resolveAddonArtifact).hasMessage("Unable to locate a single file using **/*.jar")
+        Assertions.assertThatThrownBy(publishToMarketplace::resolveAddonArtifact).hasMessage("Unable to locate a single file using **/*.jar")
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -189,7 +188,7 @@ abstract class BaseTestPublishToMarketplace
         void testPublishVersionMinimalConfiguration()
                 throws Exception
         {
-            setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-1.0.0.obr");
+            setUpPublisher(marketplace.baseUrl(), BasicAuthenticationRequestFilter.ADMIN, BasicAuthenticationRequestFilter.ADMIN, "**/simple-app-1.0.0.obr");
 
             publishToMarketplace.run();
 
@@ -197,14 +196,14 @@ abstract class BaseTestPublishToMarketplace
 
             JsonObject json = assertNewVersionPosted(link);
 
-            assertThat(json.getAsJsonPrimitive("status")
+            Assertions.assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PUBLIC.getKey());
-            assertThat(json.getAsJsonPrimitive("paymentModel")
+            Assertions.assertThat(json.getAsJsonPrimitive("paymentModel")
                     .getAsString()).isEqualTo(PaymentModel.FREE.getKey());
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseSummary")
                     .getAsString()).isEqualTo("Release with new features.");
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseNotes")
                     .getAsString()).isEqualTo("");
         }
@@ -213,7 +212,7 @@ abstract class BaseTestPublishToMarketplace
         void testPublishDataCenterVersionMinimalConfiguration()
                 throws Exception
         {
-            setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-dc-1.0.0.jar");
+            setUpPublisher(marketplace.baseUrl(), BasicAuthenticationRequestFilter.ADMIN, BasicAuthenticationRequestFilter.ADMIN, "**/simple-app-dc-1.0.0.jar");
 
             publishToMarketplace.run();
 
@@ -221,14 +220,14 @@ abstract class BaseTestPublishToMarketplace
 
             JsonObject json = assertNewVersionPosted(link, "100000001");
 
-            assertThat(json.getAsJsonPrimitive("status")
+            Assertions.assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PUBLIC.getKey());
-            assertThat(json.getAsJsonPrimitive("paymentModel")
+            Assertions.assertThat(json.getAsJsonPrimitive("paymentModel")
                     .getAsString()).isEqualTo(PaymentModel.FREE.getKey());
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseSummary")
                     .getAsString()).isEqualTo("Release with new features.");
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseNotes")
                     .getAsString()).isEqualTo("");
         }
@@ -237,7 +236,7 @@ abstract class BaseTestPublishToMarketplace
         void testPublishVersionMinimalConfigurationNoMarketing()
                 throws Exception
         {
-            setUpPublisher(marketplace.baseUrl(), ADMIN, ADMIN, "**/simple-app-no-marketing-1.0.0.jar");
+            setUpPublisher(marketplace.baseUrl(), BasicAuthenticationRequestFilter.ADMIN, BasicAuthenticationRequestFilter.ADMIN, "**/simple-app-no-marketing-1.0.0.jar");
 
             publishToMarketplace.run();
 
@@ -245,14 +244,14 @@ abstract class BaseTestPublishToMarketplace
 
             JsonObject json = assertNewVersionPosted(link);
 
-            assertThat(json.getAsJsonPrimitive("status")
+            Assertions.assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PUBLIC.getKey());
-            assertThat(json.getAsJsonPrimitive("paymentModel")
+            Assertions.assertThat(json.getAsJsonPrimitive("paymentModel")
                     .getAsString()).isEqualTo(PaymentModel.FREE.getKey());
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseSummary")
                     .getAsString()).isEqualTo("Release with new features.");
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseNotes")
                     .getAsString()).isEqualTo("");
         }
@@ -262,15 +261,15 @@ abstract class BaseTestPublishToMarketplace
 				throws Exception
 		{
             setUpPublisher(marketplace.baseUrl(),
-                    ADMIN,
-                    ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
                     "**/simple-app-1.0.0.obr",
                     null,
                     AddonVersionStatus.PRIVATE,
                     PaymentModel.PAID_VIA_ATLASSIAN,
                     jira.baseUrl(),
-                    ADMIN,
-                    ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
                     "TP",
                     "server-%s",
                     true,
@@ -278,45 +277,45 @@ abstract class BaseTestPublishToMarketplace
 
 			publishToMarketplace.run();
 
-			RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(POST, urlPathEqualTo("/rest/api/latest/search"))
+			RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(RequestMethod.POST, WireMock.urlPathEqualTo("/rest/api/latest/search"))
 					.build();
 			ServeEvent serveEvent = getServeEvent(jira, requestPattern);
             SearchRequest searchRequest = encoding.decode(new ByteArrayInputStream(serveEvent.getRequest()
                     .getBody()), SearchRequest.class);
-			assertThat(searchRequest.getJql()).isEqualTo(
+			Assertions.assertThat(searchRequest.getJql()).isEqualTo(
 					"project = 'TP' AND fixVersion = 'server-1.0.0' AND statusCategory = Done AND level is EMPTY AND category = Open-Source ORDER BY priority DESC, issuekey ASC");
-			assertThat(searchRequest.getFields()).containsOnly("summary", "issuetype");
-			assertThat(searchRequest.getStartAt()).isEqualTo(0);
-			assertThat(searchRequest.getMaxResults()).isEqualTo(10);
+			Assertions.assertThat(searchRequest.getFields()).containsOnly("summary", "issuetype");
+			Assertions.assertThat(searchRequest.getStartAt()).isEqualTo(0);
+			Assertions.assertThat(searchRequest.getMaxResults()).isEqualTo(10);
 
 			Link link = assertArtifactUploaded("simple-app-1.0.0.obr");
 			JsonObject json = assertNewVersionPosted(link);
-            assertThat(json.getAsJsonPrimitive("status")
+            Assertions.assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PRIVATE.getKey());
-            assertThat(json.getAsJsonPrimitive("paymentModel")
+            Assertions.assertThat(json.getAsJsonPrimitive("paymentModel")
                     .getAsString()).isEqualTo(PaymentModel.PAID_VIA_ATLASSIAN.getKey());
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseSummary")
                     .getAsString()).isEqualTo("Initial Release");
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseNotes")
-                    .getAsString()).contains(format("<li><a href=\"%s/browse/TP-624\">TP-624</a> Get work done (Story)</li>",
+                    .getAsString()).contains(String.format("<li><a href=\"%s/browse/TP-624\">TP-624</a> Get work done (Story)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-610\">TP-610</a> Get more work done (Story)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-600\">TP-600</a> Yet more work to do (Story)</li>", jira.baseUrl()))
-                    .contains(format(
+					.contains(String.format("<li><a href=\"%s/browse/TP-610\">TP-610</a> Get more work done (Story)</li>", jira.baseUrl()))
+					.contains(String.format("<li><a href=\"%s/browse/TP-600\">TP-600</a> Yet more work to do (Story)</li>", jira.baseUrl()))
+                    .contains(String.format(
                             "<li><a href=\"%s/browse/TP-597\">TP-597</a> Oops, should have thought a bit more (Technical Debt)</li>",
                             jira.baseUrl()))
-                    .contains(format("<li><a href=\"%s/browse/TP-581\">TP-581</a> We need to fix this (Technical Debt)</li>",
+                    .contains(String.format("<li><a href=\"%s/browse/TP-581\">TP-581</a> We need to fix this (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-579\">TP-579</a> New feature please (Story)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-562\">TP-562</a> Optimize this release note (Technical Debt)</li>",
+					.contains(String.format("<li><a href=\"%s/browse/TP-579\">TP-579</a> New feature please (Story)</li>", jira.baseUrl()))
+					.contains(String.format("<li><a href=\"%s/browse/TP-562\">TP-562</a> Optimize this release note (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-558\">TP-558</a> Cleanup in aisle three (Technical Debt)</li>",
+					.contains(String.format("<li><a href=\"%s/browse/TP-558\">TP-558</a> Cleanup in aisle three (Technical Debt)</li>",
                             jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-549\">TP-549</a> Almost complete (Technical Debt)</li>", jira.baseUrl()))
-					.contains(format("<li><a href=\"%s/browse/TP-547\">TP-547</a> Release initial version (Story)</li>", jira.baseUrl()))
-					.contains("Showing 10 of ", "37 issues", format("%s/issues?jql=", jira.baseUrl()));
+					.contains(String.format("<li><a href=\"%s/browse/TP-549\">TP-549</a> Almost complete (Technical Debt)</li>", jira.baseUrl()))
+					.contains(String.format("<li><a href=\"%s/browse/TP-547\">TP-547</a> Release initial version (Story)</li>", jira.baseUrl()))
+					.contains("Showing 10 of ", "37 issues", String.format("%s/issues?jql=", jira.baseUrl()));
 		}
 
         @Test
@@ -324,8 +323,8 @@ abstract class BaseTestPublishToMarketplace
                 throws Exception
         {
             setUpPublisher(marketplace.baseUrl(),
-                    ADMIN,
-                    ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
+                    BasicAuthenticationRequestFilter.ADMIN,
                     "**/simple-app-1.0.0.obr",
                     "**/1.0.0.html",
                     AddonVersionStatus.PRIVATE,
@@ -342,14 +341,14 @@ abstract class BaseTestPublishToMarketplace
 
             Link link = assertArtifactUploaded("simple-app-1.0.0.obr");
             JsonObject json = assertNewVersionPosted(link);
-            assertThat(json.getAsJsonPrimitive("status")
+            Assertions.assertThat(json.getAsJsonPrimitive("status")
                     .getAsString()).isEqualTo(AddonVersionStatus.PRIVATE.getKey());
-            assertThat(json.getAsJsonPrimitive("paymentModel")
+            Assertions.assertThat(json.getAsJsonPrimitive("paymentModel")
                     .getAsString()).isEqualTo(PaymentModel.PAID_VIA_ATLASSIAN.getKey());
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseSummary")
                     .getAsString()).isEqualTo("Release with new features.");
-            assertThat(json.getAsJsonObject("text")
+            Assertions.assertThat(json.getAsJsonObject("text")
                     .getAsJsonPrimitive("releaseNotes")
                     .getAsString()).isEqualTo("<div>Notes for 1.0.0</div><div>Whee new features</div>");
         }
@@ -364,8 +363,8 @@ abstract class BaseTestPublishToMarketplace
                 @Nullable
                 String dataCenterBuildNumber)
         {
-            RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(POST,
-                            urlPathEqualTo("/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions"))
+            RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(RequestMethod.POST,
+                            WireMock.urlPathEqualTo("/rest/2/addons/org.marvelution.buildsupport.test.simple-app/versions"))
                     .build();
             ServeEvent versionEvent = getServeEvent(marketplace, requestPattern);
 
@@ -373,34 +372,34 @@ abstract class BaseTestPublishToMarketplace
                     .getHeader("X-Mpac-DataCenter-BuildNumber");
             if (dataCenterBuildNumber == null)
             {
-                assertThat(dataCenterBuildNumberHeader).isNull();
+                Assertions.assertThat(dataCenterBuildNumberHeader).isNull();
             }
             else
             {
-                assertThat(dataCenterBuildNumberHeader).isEqualTo(dataCenterBuildNumber);
+                Assertions.assertThat(dataCenterBuildNumberHeader).isEqualTo(dataCenterBuildNumber);
             }
             JsonObject json = new JsonParser().parse(versionEvent.getRequest()
                             .getBodyAsString())
                     .getAsJsonObject();
 
-            assertThat(json.getAsJsonObject("_links")
+            Assertions.assertThat(json.getAsJsonObject("_links")
                     .getAsJsonObject("artifact")
                     .getAsJsonPrimitive("href")
                     .getAsString()).isEqualTo(artifactUri.getUri()
                     .toASCIIString());
-            assertThat(json.getAsJsonObject("_links")
+            Assertions.assertThat(json.getAsJsonObject("_links")
                     .getAsJsonObject("agreement")
                     .getAsJsonPrimitive("href")
                     .getAsString()).isEqualTo(MARKETPLACE_AGREEMENT_URI.toASCIIString());
-            assertThat(json.getAsJsonPrimitive("name")
+            Assertions.assertThat(json.getAsJsonPrimitive("name")
                     .getAsString()).isEqualTo("1.0.0");
-            assertThat(json.getAsJsonPrimitive("buildNumber")
+            Assertions.assertThat(json.getAsJsonPrimitive("buildNumber")
                     .getAsString()).isEqualTo("100000000");
-            assertThat(json.getAsJsonObject("release")
+            Assertions.assertThat(json.getAsJsonObject("release")
                     .getAsJsonPrimitive("date")
                     .getAsString()).isEqualTo(LocalDate.now()
                     .toString());
-            assertThat(json.getAsJsonObject("release")
+            Assertions.assertThat(json.getAsJsonObject("release")
                     .getAsJsonPrimitive("releasedBy")
                     .getAsString()).isEqualTo("Marvelution B.V.");
             return json;
@@ -409,8 +408,8 @@ abstract class BaseTestPublishToMarketplace
         private Link assertArtifactUploaded(String file)
                 throws MpacException
         {
-            RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(POST, urlPathEqualTo("/rest/2/assets/artifact"))
-                    .withQueryParam("file", equalTo(file))
+            RequestPattern requestPattern = RequestPatternBuilder.newRequestPattern(RequestMethod.POST, WireMock.urlPathEqualTo("/rest/2/assets/artifact"))
+                    .withQueryParam("file", WireMock.equalTo(file))
                     .build();
             ServeEvent uploadEvent = getServeEvent(marketplace, requestPattern);
             return encoding.decode(new ByteArrayInputStream(uploadEvent.getResponse()
