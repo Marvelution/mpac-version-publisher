@@ -10,7 +10,7 @@ Otherwise, [EnvironmentPublisherConfiguration](#EnvironmentPublisherConfiguratio
 Configuring the tool using the `org.marvelution.buildsupport.configuration.CommandLinePublisherConfiguration` takes the following 
 arguments:
 
-```
+```bash
 $ java -jar mpac-version-publisher-1-SNAPSHOT.jar -h
 
 Missing required options: mu, mt, vap
@@ -62,3 +62,44 @@ environment variables:
 _(*) = required variable._
 
 
+## Development
+
+### Toolchain
+
+You will need to have a toolchain for the jdk11
+
+`vim  ~/.m2/toolchains.xml`
+
+Be sure to adjust path to you jvm11 installation
+
+```xml
+<toolchains>
+  <!-- JDK toolchains -->
+  <toolchain>
+    <type>jdk</type>
+    <provides>
+      <version>11</version>
+      <vendor>librca</vendor>
+    </provides>
+    <configuration>
+      <jdkHome>/your/path/to/your/jvm11</jdkHome>
+    </configuration>
+  </toolchain>
+</toolchains>
+```
+
+### Build
+
+```bash
+make build
+# or
+./mvnw clean package
+```
+
+### Test
+
+```bash
+make test
+# or
+./mvnw clean test
+```
