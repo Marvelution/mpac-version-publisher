@@ -7,8 +7,8 @@ endif
 
 .SILENT:
 
-build: build-parent build-core build-cli
-	echo "finished build"
+build-all:
+	./mvnw $(MVN_FLAGS) -DskipTests clean install
 
 build-parent:
 	./mvnw $(MVN_FLAGS) -DskipTests clean install

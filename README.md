@@ -91,7 +91,7 @@ Be sure to adjust path to you jvm11 installation
 ### Build
 
 ```bash
-make build
+make build-all
 # or
 ./mvnw clean package
 ```
