@@ -11,7 +11,7 @@ build-all:
 	./mvnw $(MVN_FLAGS) -DskipTests clean install
 
 build-parent:
-	./mvnw $(MVN_FLAGS) -DskipTests clean install
+	./mvnw $(MVN_FLAGS) -N -DskipTests clean install
 
 build-cli:
 	./mvnw $(MVN_FLAGS) -DskipTests -pl cli clean install
