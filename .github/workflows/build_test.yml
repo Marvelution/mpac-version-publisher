@@ -1,7 +1,6 @@
 name: Build and test
 
-# TODO Change this to run on push once GH Actions is supported.
-on: workflow_dispatch
+on: push
 
 jobs:
   tests:
