@@ -34,7 +34,6 @@ public class PublishToMarketplace
     {
         this.configuration = configuration;
     }
-
     public void run()
             throws Exception
     {
